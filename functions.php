@@ -183,6 +183,37 @@ add_action('after_setup_theme', function () {
 });
 
 // ========================================
+// スタイルシートとスクリプトの読み込み
+// ========================================
+
+/**
+ * スタイルシートとスクリプトを読み込み
+ * 
+ * 設計意図:
+ * - wp_enqueue_style()でCSSを正しく読み込む
+ * - バージョン管理でキャッシュ対策
+ * - パフォーマンス最適化
+ */
+add_action('wp_enqueue_scripts', function() {
+    // メインスタイルシート
+    wp_enqueue_style(
+        'theme-style',
+        get_stylesheet_uri(),
+        array(),
+        wp_get_theme()->get('Version')
+    );
+    
+    // メインスクリプト（必要に応じて）
+    // wp_enqueue_script(
+    //     'theme-script',
+    //     get_template_directory_uri() . '/assets/js/main.js',
+    //     array(),
+    //     wp_get_theme()->get('Version'),
+    //     true
+    // );
+});
+
+// ========================================
 // アイキャッチ画像サイズの定義
 // ========================================
 
