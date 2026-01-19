@@ -2,7 +2,7 @@
 Theme Name: Tax Matching Theme
 Theme URI: https://example.com
 Description: 税理士マッチングサイト用テーマ - 管理しやすく、更新しやすく、壊れにくい設計
-Version: 1.3.0
+Version: 1.4.0
 Author: InfinityDesign
 Author URI: https://example.com
 License: GNU General Public License v2 or later
@@ -1969,5 +1969,513 @@ body {
     
     .contact-form-wrapper {
         padding: 20px;
+    }
+}
+
+/* ========================================
+   税理士サービス詳細ページ (single-tax_service.php)
+   ======================================== */
+
+.service-single {
+    background: #fff;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ヘッダー部分 */
+.service-single__header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+}
+
+.service-single__title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+.service-single__catchcopy {
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+    opacity: 0.95;
+    line-height: 1.6;
+}
+
+/* メタ情報 */
+.service-single__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.service-single__meta-item {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 0.95rem;
+}
+
+.service-single__meta-label {
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.service-single__meta-item a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 5px;
+    transition: opacity 0.3s;
+}
+
+.service-single__meta-item a:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+/* バッジ */
+.service-single__badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.service-single__badge--premium {
+    background-color: #f0ad4e;
+}
+
+.service-single__badge--standard {
+    background-color: #5bc0de;
+}
+
+.service-single__badge--basic {
+    background-color: #999;
+}
+
+/* アイキャッチ画像 */
+.service-single__thumbnail {
+    width: 100%;
+    max-width: 1000px;
+    margin: -40px auto 40px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 10;
+}
+
+.service-single__thumbnail img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* 本文 */
+.service-single__content {
+    padding: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 1.8;
+    font-size: 1.05rem;
+}
+
+.service-single__content h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #667eea;
+}
+
+.service-single__content h3 {
+    font-size: 1.4rem;
+    color: #555;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.service-single__content p {
+    margin-bottom: 15px;
+}
+
+.service-single__content ul,
+.service-single__content ol {
+    margin: 15px 0;
+    padding-left: 30px;
+}
+
+.service-single__content li {
+    margin-bottom: 8px;
+}
+
+/* セクション共通スタイル */
+.service-single__section-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 25px;
+    padding: 15px 20px;
+    background: linear-gradient(to right, #667eea, transparent);
+    color: #fff;
+    border-radius: 6px;
+}
+
+/* 編集部のおすすめポイント */
+.service-single__editor-review {
+    padding: 40px;
+    max-width: 900px;
+    margin: 40px auto;
+    background: #f8f9fa;
+    border-radius: 12px;
+}
+
+.service-single__rating {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #fff;
+    border-radius: 8px;
+}
+
+.service-single__rating-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.service-single__rating-value {
+    font-size: 1.3rem;
+    color: #f0ad4e;
+}
+
+.service-single__editor-content {
+    line-height: 1.8;
+    color: #555;
+}
+
+/* こんな人におすすめ */
+.service-single__recommended {
+    padding: 40px;
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    border: 2px solid #667eea;
+    border-radius: 12px;
+}
+
+.service-single__recommended-content {
+    line-height: 1.8;
+    color: #555;
+}
+
+.service-single__recommended-content ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.service-single__recommended-content li {
+    padding: 12px 0;
+    padding-left: 30px;
+    position: relative;
+}
+
+.service-single__recommended-content li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #667eea;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* 相談について */
+.service-single__consultation {
+    padding: 40px;
+    max-width: 900px;
+    margin: 40px auto;
+    background: #f8f9fa;
+    border-radius: 12px;
+}
+
+.service-single__consultation h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 15px;
+    margin-top: 25px;
+}
+
+.service-single__consultation-method ul {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.service-single__consultation-method li {
+    background: #fff;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 2px solid #667eea;
+    color: #667eea;
+    font-weight: bold;
+}
+
+.service-single__response-time p {
+    font-size: 1.1rem;
+    color: #555;
+    padding: 15px;
+    background: #fff;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+/* お問い合わせボタン */
+.service-single__contact {
+    padding: 60px 40px;
+    max-width: 900px;
+    margin: 60px auto;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.service-single__contact .service-single__section-title {
+    background: transparent;
+    color: #fff;
+    text-align: center;
+}
+
+.service-single__contact-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.service-single__contact-button {
+    display: inline-block;
+    padding: 16px 40px;
+    background: #fff;
+    color: #667eea;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+    border: 3px solid #fff;
+}
+
+.service-single__contact-button:hover {
+    background: transparent;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.service-single__contact-button--website {
+    background: #fff;
+    color: #667eea;
+}
+
+.service-single__contact-button--tel {
+    background: #fff;
+    color: #28a745;
+}
+
+.service-single__contact-button--email {
+    background: #fff;
+    color: #17a2b8;
+}
+
+/* 関連サービス */
+.service-single__related {
+    padding: 60px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #f8f9fa;
+}
+
+.service-single__related .service-single__section-title {
+    background: linear-gradient(to right, #667eea, transparent);
+    color: #fff;
+    text-align: center;
+}
+
+/* 警告メッセージ */
+.notice {
+    padding: 20px;
+    margin: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.notice-warning {
+    background: #fff3cd;
+    border: 2px solid #ffc107;
+    color: #856404;
+}
+
+.notice p {
+    margin: 0;
+    font-weight: bold;
+}
+
+/* パンくずリスト */
+.breadcrumb {
+    padding: 15px 40px;
+    background: #f8f9fa;
+    font-size: 0.9rem;
+}
+
+.breadcrumb a {
+    color: #667eea;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb span {
+    margin: 0 8px;
+    color: #999;
+}
+
+/* サービス詳細情報テーブル */
+.service-detail-table {
+    width: 100%;
+    max-width: 900px;
+    margin: 40px auto;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.service-detail-table th {
+    background: #667eea;
+    color: #fff;
+    padding: 15px;
+    text-align: left;
+    font-weight: bold;
+    width: 30%;
+}
+
+.service-detail-table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.service-detail-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .service-single__header {
+        padding: 40px 20px;
+    }
+    
+    .service-single__title {
+        font-size: 1.8rem;
+    }
+    
+    .service-single__catchcopy {
+        font-size: 1.1rem;
+    }
+    
+    .service-single__meta {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .service-single__badge {
+        position: static;
+        display: inline-block;
+        margin-top: 20px;
+    }
+    
+    .service-single__thumbnail {
+        margin: -20px 20px 20px;
+        border-radius: 8px;
+    }
+    
+    .service-single__content,
+    .service-single__editor-review,
+    .service-single__recommended,
+    .service-single__consultation,
+    .service-single__contact,
+    .service-single__related {
+        padding: 20px;
+    }
+    
+    .service-single__section-title {
+        font-size: 1.4rem;
+        padding: 12px 15px;
+    }
+    
+    .service-single__contact-buttons {
+        flex-direction: column;
+    }
+    
+    .service-single__contact-button {
+        width: 100%;
+    }
+    
+    .breadcrumb {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+    }
+    
+    .service-detail-table {
+        font-size: 0.9rem;
+    }
+    
+    .service-detail-table th,
+    .service-detail-table td {
+        padding: 10px;
+        display: block;
+        width: 100%;
+    }
+    
+    .service-detail-table th {
+        border-bottom: none;
+    }
+    
+    .service-detail-table tr {
+        margin-bottom: 20px;
+        display: block;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+}
+
+@media (max-width: 480px) {
+    .service-single__title {
+        font-size: 1.5rem;
+    }
+    
+    .service-single__catchcopy {
+        font-size: 1rem;
+    }
+    
+    .service-single__content {
+        font-size: 1rem;
     }
 }
