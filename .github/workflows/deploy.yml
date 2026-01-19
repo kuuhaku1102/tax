@@ -105,19 +105,9 @@ jobs:
           #   false = 既存ファイルは残す（安全）
 
           # ===== 除外設定 =====
-          rsyncArgs: >
-            --exclude='.git/'
-            --exclude='.github/'
-            --exclude='docs/'
-            --exclude='node_modules/'
-            --exclude='.env'
-            --exclude='.DS_Store'
-            --exclude='*.py'
-            --exclude='*.md'
-            --exclude='*.backup*'
-            --exclude='*.old'
-            --exclude='.gitignore'
+          rsyncArgs: --exclude=.git/ --exclude=.github/ --exclude=docs/ --exclude=node_modules/ --exclude=.env --exclude=.DS_Store --exclude=*.py --exclude=*.md --exclude=*.backup* --exclude=*.old --exclude=.gitignore
           # ↑ 【通常固定】テーマに不要なものを除外
+          # .git/     = Gitリポジトリ
           # .github/  = GitHub Actions設定
           # docs/     = ドキュメント
           # *.md      = Markdownファイル（README等）
