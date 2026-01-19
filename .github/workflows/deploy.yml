@@ -25,7 +25,29 @@ jobs:
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -p $SSH_PORT $SSH_HOST >> ~/.ssh/known_hosts
+          ssh-keyscan -p $SSH_PORT $SSH_HOST >> ~/.ssh/known_hosts 2>/dev/null || true
+      
+      - name: Test SSH connection
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: |
+          echo "Testing SSH connection..."
+          ssh -i ~/.ssh/deploy_key -p $SSH_PORT -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "echo 'SSH connection successful' && pwd"
+      
+      - name: Create required directories on remote server
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: |
+          ssh -i ~/.ssh/deploy_key -p $SSH_PORT -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'ENDSSH'
+            # Create required directories
+            mkdir -p /public_html/elmolinitos.com/wp-content/themes/tax-matching-theme
+            mkdir -p /public_html/elmolinitos.com/wp-content/themes/backups
+            echo "✓ Required directories created"
+          ENDSSH
       
       - name: Create backup on remote server
         env:
@@ -33,27 +55,24 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
         run: |
-          ssh -i ~/.ssh/deploy_key -p $SSH_PORT $SSH_USER@$SSH_HOST << 'ENDSSH'
+          ssh -i ~/.ssh/deploy_key -p $SSH_PORT -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'ENDSSH'
             THEME_DIR="/public_html/elmolinitos.com/wp-content/themes/tax-matching-theme"
             BACKUP_DIR="/public_html/elmolinitos.com/wp-content/themes/backups"
             TIMESTAMP=$(date +%Y%m%d_%H%M%S)
             
-            # Create backup directory if not exists
-            mkdir -p $BACKUP_DIR
-            
-            # Create backup
-            if [ -d "$THEME_DIR" ]; then
+            # Create backup if theme directory has content
+            if [ -d "$THEME_DIR" ] && [ "$(ls -A $THEME_DIR 2>/dev/null)" ]; then
               echo "Creating backup: $BACKUP_DIR/tax-matching-theme_$TIMESTAMP"
               cp -r $THEME_DIR $BACKUP_DIR/tax-matching-theme_$TIMESTAMP
-              echo "Backup created successfully"
+              echo "✓ Backup created successfully"
+              
+              # Keep only last 5 backups
+              cd $BACKUP_DIR
+              ls -t | tail -n +6 | xargs -r rm -rf
+              echo "✓ Old backups cleaned up"
             else
-              echo "Theme directory does not exist yet, skipping backup"
+              echo "Theme directory is empty or does not exist, skipping backup"
             fi
-            
-            # Keep only last 5 backups
-            cd $BACKUP_DIR
-            ls -t | tail -n +6 | xargs -r rm -rf
-            echo "Old backups cleaned up"
           ENDSSH
       
       - name: Deploy files via rsync
@@ -62,13 +81,16 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
         run: |
+          echo "Starting rsync deployment..."
           rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -p $SSH_PORT" \
+            -e "ssh -i ~/.ssh/deploy_key -p $SSH_PORT -o StrictHostKeyChecking=no" \
             --exclude='.git' \
             --exclude='.github' \
             --exclude='.gitignore' \
             --exclude='README.md' \
+            --exclude='.DS_Store' \
             ./ $SSH_USER@$SSH_HOST:/public_html/elmolinitos.com/wp-content/themes/tax-matching-theme/
+          echo "✓ Files deployed successfully"
       
       - name: Verify deployment
         env:
@@ -76,13 +98,17 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
         run: |
-          ssh -i ~/.ssh/deploy_key -p $SSH_PORT $SSH_USER@$SSH_HOST << 'ENDSSH'
+          ssh -i ~/.ssh/deploy_key -p $SSH_PORT -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'ENDSSH'
             THEME_DIR="/public_html/elmolinitos.com/wp-content/themes/tax-matching-theme"
             
+            echo "Verifying deployment..."
             if [ -f "$THEME_DIR/style.css" ]; then
               echo "✓ Deployment verified: style.css exists"
+              echo ""
               echo "Files in theme directory:"
               ls -lh $THEME_DIR
+              echo ""
+              echo "✓ Deployment completed successfully!"
               exit 0
             else
               echo "✗ Deployment failed: style.css not found"
@@ -97,22 +123,28 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
         run: |
-          echo "Deployment failed, initiating rollback..."
-          ssh -i ~/.ssh/deploy_key -p $SSH_PORT $SSH_USER@$SSH_HOST << 'ENDSSH'
+          echo "⚠️  Deployment failed, initiating rollback..."
+          ssh -i ~/.ssh/deploy_key -p $SSH_PORT -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'ENDSSH'
             THEME_DIR="/public_html/elmolinitos.com/wp-content/themes/tax-matching-theme"
             BACKUP_DIR="/public_html/elmolinitos.com/wp-content/themes/backups"
             
             # Get the latest backup
-            LATEST_BACKUP=$(ls -t $BACKUP_DIR | head -n 1)
-            
-            if [ -n "$LATEST_BACKUP" ]; then
-              echo "Rolling back to: $LATEST_BACKUP"
-              rm -rf $THEME_DIR
-              cp -r $BACKUP_DIR/$LATEST_BACKUP $THEME_DIR
-              echo "✓ Rollback completed successfully"
+            if [ -d "$BACKUP_DIR" ]; then
+              LATEST_BACKUP=$(ls -t $BACKUP_DIR 2>/dev/null | head -n 1)
+              
+              if [ -n "$LATEST_BACKUP" ]; then
+                echo "Rolling back to: $LATEST_BACKUP"
+                rm -rf $THEME_DIR
+                cp -r $BACKUP_DIR/$LATEST_BACKUP $THEME_DIR
+                echo "✓ Rollback completed successfully"
+                exit 0
+              else
+                echo "⚠️  No backup found for rollback (this might be the first deployment)"
+                exit 0
+              fi
             else
-              echo "✗ No backup found for rollback"
-              exit 1
+              echo "⚠️  Backup directory does not exist (this might be the first deployment)"
+              exit 0
             fi
           ENDSSH
       
