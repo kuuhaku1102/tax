@@ -108,12 +108,21 @@ jobs:
           rsyncArgs: >
             --exclude='.git/'
             --exclude='.github/'
+            --exclude='docs/'
             --exclude='node_modules/'
             --exclude='.env'
             --exclude='.DS_Store'
             --exclude='*.py'
-            --exclude='README.md'
+            --exclude='*.md'
+            --exclude='*.backup*'
+            --exclude='*.old'
+            --exclude='.gitignore'
           # ↑ 【通常固定】テーマに不要なものを除外
+          # .github/  = GitHub Actions設定
+          # docs/     = ドキュメント
+          # *.md      = Markdownファイル（README等）
+          # *.backup* = バックアップファイル
+          # *.old     = 古いファイル
 
       # ----------------------------
       # ⑤ デプロイ検証
