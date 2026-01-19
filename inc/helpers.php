@@ -223,6 +223,42 @@ function get_taxonomy_archive_url($taxonomy, $term_id) {
 }
 
 // ========================================
+// サービス数関連
+// ========================================
+
+/**
+ * 掲載中のサービス総数を取得
+ * 
+ * @return int サービス総数
+ */
+function get_total_services_count() {
+    $count = wp_cache_get('total_services_count', 'tax_matching');
+    
+    if (false === $count) {
+        $args = [
+            'post_type' => 'tax_service',
+            'post_status' => 'publish',
+            'posts_per_page' => -1,
+            'fields' => 'ids',
+            'meta_query' => [
+                [
+                    'key' => 'listing_status',
+                    'value' => '1',
+                    'compare' => '=',
+                ],
+            ],
+        ];
+        
+        $query = new WP_Query($args);
+        $count = $query->found_posts;
+        
+        wp_cache_set('total_services_count', $count, 'tax_matching', 3600);
+    }
+    
+    return $count > 0 ? $count : 100; // デフォルト値として100を返す
+}
+
+// ========================================
 // デバッグ・開発用
 // ========================================
 
