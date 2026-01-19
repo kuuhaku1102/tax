@@ -45,7 +45,7 @@ jobs:
           ssh -i ~/.ssh/id_ed25519 -p 8022 \
             c3659606@www1012.conoha.ne.jp << 'ENDSSH'
             THEME_DIR="public_html/elmolinitos.com/wp-content/themes/tax-matching-theme"
-            BACKUP_DIR="public_html/elmolinitos.com/wp-content/themes/backups"
+            BACKUP_DIR="public_html/elmolinitos.com/wp-content/theme-backups"
             TIMESTAMP=$(date +%Y%m%d_%H%M%S)
             
             # Create backup directory if not exists
@@ -148,7 +148,7 @@ jobs:
           ssh -i ~/.ssh/id_ed25519 -p 8022 \
             c3659606@www1012.conoha.ne.jp << 'ENDSSH'
             THEME_DIR="public_html/elmolinitos.com/wp-content/themes/tax-matching-theme"
-            BACKUP_DIR="public_html/elmolinitos.com/wp-content/themes/backups"
+            BACKUP_DIR="public_html/elmolinitos.com/wp-content/theme-backups"
             
             # Get the latest backup
             if [ -d "$BACKUP_DIR" ]; then
