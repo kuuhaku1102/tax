@@ -142,10 +142,12 @@ add_action('init', function () {
  * - 役割ごとにファイルを分割
  */
 $includes = [
-    'inc/helpers.php',      // 汎用ヘルパー関数
-    'inc/query.php',        // クエリ関連関数
-    'inc/display.php',      // 表示関連関数
-    'inc/admin.php',        // 管理画面カスタマイズ
+    'inc/helpers.php',          // 汎用ヘルパー関数
+    'inc/query.php',            // クエリ関連関数
+    'inc/display.php',          // 表示関連関数
+    'inc/admin.php',            // 管理画面カスタマイズ
+    'inc/estimate-request.php', // 見積もり依頼機能
+    'inc/contact-form.php',     // お問い合わせフォーム機能
 ];
 
 foreach ($includes as $file) {
