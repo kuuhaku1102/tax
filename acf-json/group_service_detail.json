@@ -1,0 +1,85 @@
+{
+    "key": "group_tax_service_detail",
+    "title": "サービス詳細",
+    "fields": [
+        {
+            "key": "field_service_features",
+            "label": "サービスの特徴",
+            "name": "service_features",
+            "type": "wysiwyg",
+            "instructions": "サービスの強み・特色を詳しく記入してください",
+            "required": 0,
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1
+        },
+        {
+            "key": "field_service_flow",
+            "label": "サービスの流れ",
+            "name": "service_flow",
+            "type": "wysiwyg",
+            "instructions": "相談から契約までの流れを記入してください",
+            "required": 0,
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1
+        },
+        {
+            "key": "field_pricing_info",
+            "label": "料金情報",
+            "name": "pricing_info",
+            "type": "wysiwyg",
+            "instructions": "料金体系・価格の目安を記入してください",
+            "required": 0,
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 0
+        },
+        {
+            "key": "field_consultation_method",
+            "label": "相談方法",
+            "name": "consultation_method",
+            "type": "checkbox",
+            "instructions": "対応可能な相談方法を選択してください（複数選択可）",
+            "required": 0,
+            "choices": {
+                "face_to_face": "対面",
+                "online": "オンライン",
+                "phone": "電話",
+                "email": "メール",
+                "chat": "チャット"
+            },
+            "default_value": [],
+            "layout": "horizontal"
+        },
+        {
+            "key": "field_response_time",
+            "label": "対応スピード",
+            "name": "response_time",
+            "type": "select",
+            "instructions": "通常の対応スピードを選択してください",
+            "required": 0,
+            "choices": {
+                "same_day": "即日対応",
+                "within_1day": "1営業日以内",
+                "within_3days": "3営業日以内",
+                "within_1week": "1週間以内"
+            },
+            "default_value": "within_3days"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "tax_service"
+            }
+        ]
+    ],
+    "menu_order": 3,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label"
+}

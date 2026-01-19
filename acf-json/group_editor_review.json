@@ -1,0 +1,66 @@
+{
+    "key": "group_tax_service_editor_review",
+    "title": "編集部評価",
+    "fields": [
+        {
+            "key": "field_editor_rating",
+            "label": "編集部評価",
+            "name": "editor_rating",
+            "type": "number",
+            "instructions": "1-5の数値で評価してください（5が最高評価）",
+            "required": 0,
+            "default_value": 3,
+            "min": 1,
+            "max": 5,
+            "step": 0.5,
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_editor_good_points",
+            "label": "おすすめポイント",
+            "name": "editor_good_points",
+            "type": "wysiwyg",
+            "instructions": "編集部が推薦する理由やおすすめポイントを記入してください",
+            "required": 0,
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0
+        },
+        {
+            "key": "field_editor_recommended_for",
+            "label": "こんな人におすすめ",
+            "name": "editor_recommended_for",
+            "type": "wysiwyg",
+            "instructions": "どのような人・企業におすすめかを記入してください",
+            "required": 0,
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0
+        },
+        {
+            "key": "field_editor_note",
+            "label": "編集部メモ（非公開）",
+            "name": "editor_note",
+            "type": "textarea",
+            "instructions": "管理用のメモ（公開ページには表示されません）",
+            "required": 0,
+            "rows": 3
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "tax_service"
+            }
+        ]
+    ],
+    "menu_order": 2,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label"
+}

@@ -1,0 +1,96 @@
+{
+    "key": "group_tax_service_basic_info",
+    "title": "基本情報",
+    "fields": [
+        {
+            "key": "field_office_name",
+            "label": "事務所名",
+            "name": "office_name",
+            "type": "text",
+            "instructions": "税理士事務所の正式名称を入力してください",
+            "required": 1,
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_representative_name",
+            "label": "代表者名",
+            "name": "representative_name",
+            "type": "text",
+            "instructions": "代表税理士の氏名を入力してください",
+            "required": 0,
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_office_url",
+            "label": "事務所URL",
+            "name": "office_url",
+            "type": "url",
+            "instructions": "公式サイトのURLを入力してください",
+            "required": 0,
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_office_tel",
+            "label": "電話番号",
+            "name": "office_tel",
+            "type": "text",
+            "instructions": "問い合わせ用電話番号を入力してください（例: 03-1234-5678）",
+            "required": 0,
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_office_email",
+            "label": "メールアドレス",
+            "name": "office_email",
+            "type": "email",
+            "instructions": "問い合わせ用メールアドレスを入力してください",
+            "required": 0,
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_office_address",
+            "label": "所在地",
+            "name": "office_address",
+            "type": "textarea",
+            "instructions": "事務所の住所を入力してください",
+            "required": 0,
+            "rows": 3,
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_catchcopy",
+            "label": "キャッチコピー",
+            "name": "catchcopy",
+            "type": "text",
+            "instructions": "一覧ページ用の短い説明文を入力してください（50文字程度）",
+            "required": 0,
+            "maxlength": 100
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "tax_service"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label"
+}

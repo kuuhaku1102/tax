@@ -1,0 +1,72 @@
+{
+    "key": "group_tax_service_tracking",
+    "title": "トラッキング・分析",
+    "fields": [
+        {
+            "key": "field_view_count",
+            "label": "閲覧数",
+            "name": "view_count",
+            "type": "number",
+            "instructions": "ページビュー数（自動更新される場合があります）",
+            "required": 0,
+            "default_value": 0,
+            "min": 0,
+            "readonly": 0,
+            "wrapper": {
+                "width": "33"
+            }
+        },
+        {
+            "key": "field_inquiry_count",
+            "label": "問い合わせ数",
+            "name": "inquiry_count",
+            "type": "number",
+            "instructions": "問い合わせ件数（手動更新）",
+            "required": 0,
+            "default_value": 0,
+            "min": 0,
+            "wrapper": {
+                "width": "33"
+            }
+        },
+        {
+            "key": "field_conversion_rate",
+            "label": "成約率（%）",
+            "name": "conversion_rate",
+            "type": "number",
+            "instructions": "成約率をパーセントで入力してください",
+            "required": 0,
+            "default_value": 0,
+            "min": 0,
+            "max": 100,
+            "step": 0.1,
+            "wrapper": {
+                "width": "33"
+            }
+        },
+        {
+            "key": "field_last_updated",
+            "label": "最終更新日時",
+            "name": "last_updated",
+            "type": "date_time_picker",
+            "instructions": "情報を更新した日時を記録してください",
+            "required": 0,
+            "display_format": "Y年m月d日 H:i",
+            "return_format": "Y-m-d H:i:s"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "tax_service"
+            }
+        ]
+    ],
+    "menu_order": 4,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label"
+}

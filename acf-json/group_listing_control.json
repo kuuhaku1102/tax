@@ -1,0 +1,106 @@
+{
+    "key": "group_tax_service_listing_control",
+    "title": "掲載制御",
+    "fields": [
+        {
+            "key": "field_listing_status",
+            "label": "掲載ステータス",
+            "name": "listing_status",
+            "type": "true_false",
+            "instructions": "ONにすると公開ページに表示されます",
+            "required": 0,
+            "message": "掲載する",
+            "default_value": 0,
+            "ui": 1,
+            "wrapper": {
+                "width": "25"
+            }
+        },
+        {
+            "key": "field_featured",
+            "label": "注目サービス",
+            "name": "featured",
+            "type": "true_false",
+            "instructions": "ONにするとトップページに表示されます",
+            "required": 0,
+            "message": "注目サービスにする",
+            "default_value": 0,
+            "ui": 1,
+            "wrapper": {
+                "width": "25"
+            }
+        },
+        {
+            "key": "field_listing_plan",
+            "label": "掲載プラン",
+            "name": "listing_plan",
+            "type": "select",
+            "instructions": "掲載プランを選択してください（表示順序に影響します）",
+            "required": 1,
+            "choices": {
+                "premium": "プレミアム",
+                "standard": "スタンダード",
+                "basic": "ベーシック"
+            },
+            "default_value": "basic",
+            "wrapper": {
+                "width": "25"
+            }
+        },
+        {
+            "key": "field_priority_score",
+            "label": "優先度スコア",
+            "name": "priority_score",
+            "type": "number",
+            "instructions": "数値が大きいほど上位に表示されます（0-1000）",
+            "required": 0,
+            "default_value": 50,
+            "min": 0,
+            "max": 1000,
+            "step": 1,
+            "wrapper": {
+                "width": "25"
+            }
+        },
+        {
+            "key": "field_listing_start_date",
+            "label": "掲載開始日",
+            "name": "listing_start_date",
+            "type": "date_picker",
+            "instructions": "掲載を開始する日付を選択してください（空欄の場合は即時掲載）",
+            "required": 0,
+            "display_format": "Y年m月d日",
+            "return_format": "Y-m-d",
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_listing_end_date",
+            "label": "掲載終了日",
+            "name": "listing_end_date",
+            "type": "date_picker",
+            "instructions": "掲載を終了する日付を選択してください（空欄の場合は無期限）",
+            "required": 0,
+            "display_format": "Y年m月d日",
+            "return_format": "Y-m-d",
+            "wrapper": {
+                "width": "50"
+            }
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "tax_service"
+            }
+        ]
+    ],
+    "menu_order": 1,
+    "position": "side",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label"
+}
