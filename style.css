@@ -2,7 +2,7 @@
 Theme Name: Tax Matching Theme
 Theme URI: https://example.com
 Description: 税理士マッチングサイト用テーマ - 管理しやすく、更新しやすく、壊れにくい設計
-Version: 1.5.0
+Version: 1.6.0
 Author: InfinityDesign
 Author URI: https://example.com
 License: GNU General Public License v2 or later
@@ -2481,5 +2481,187 @@ body {
     
     .service-single__content {
         font-size: 0.95rem;
+    }
+}
+
+/* ========================================
+   サービス詳細セクション (display_service_detail)
+   ======================================== */
+
+.service-detail {
+    max-width: 900px;
+    margin: 40px auto;
+}
+
+.service-detail__basic {
+    margin-bottom: 40px;
+}
+
+.service-detail__heading {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #0066cc;
+}
+
+.service-detail__features,
+.service-detail__editor-review,
+.service-detail__pricing {
+    padding: 30px;
+    margin-bottom: 30px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.service-detail__content {
+    line-height: 1.8;
+    color: #555;
+}
+
+.service-detail__content h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.service-detail__content h4 {
+    font-size: 1.1rem;
+    color: #555;
+    margin-top: 20px;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.service-detail__content p {
+    margin-bottom: 15px;
+}
+
+.service-detail__content ul,
+.service-detail__content ol {
+    margin: 15px 0;
+    padding-left: 25px;
+}
+
+.service-detail__content li {
+    margin-bottom: 10px;
+}
+
+.service-detail__content strong {
+    color: #0066cc;
+    font-weight: 600;
+}
+
+/* サービスの特徴セクション内のピン */
+.service-single__content h2 {
+    position: relative;
+    padding-left: 20px;
+}
+
+.service-single__content h2:before {
+    content: "📌";
+    position: absolute;
+    left: 0;
+    font-size: 1rem;
+}
+
+.service-single__content h3 {
+    position: relative;
+    padding-left: 18px;
+}
+
+.service-single__content h3:before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: #0066cc;
+    font-weight: bold;
+}
+
+/* リスト項目のスタイリング */
+.service-single__content ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.service-single__content ul li {
+    padding-left: 25px;
+    position: relative;
+}
+
+.service-single__content ul li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #0066cc;
+    font-weight: bold;
+}
+
+/* 編集部のおすすめポイント内のリスト */
+.service-single__editor-content ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.service-single__editor-content ul li {
+    padding: 12px 0;
+    padding-left: 25px;
+    position: relative;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.service-single__editor-content ul li:last-child {
+    border-bottom: none;
+}
+
+.service-single__editor-content ul li:before {
+    content: "●";
+    position: absolute;
+    left: 0;
+    color: #0066cc;
+    font-size: 0.8rem;
+}
+
+.service-single__editor-content h3,
+.service-single__editor-content h4 {
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 12px;
+}
+
+/* おすすめポイント内のリスト */
+.service-single__recommended-content ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.service-single__recommended-content ul li {
+    padding: 10px 0;
+    padding-left: 25px;
+    position: relative;
+}
+
+.service-single__recommended-content ul li:before {
+    content: "●";
+    position: absolute;
+    left: 0;
+    color: #0066cc;
+    font-size: 0.8rem;
+}
+
+/* レスポンシブ調整 */
+@media (max-width: 768px) {
+    .service-detail__features,
+    .service-detail__editor-review,
+    .service-detail__pricing {
+        padding: 20px;
+    }
+    
+    .service-detail__heading {
+        font-size: 1.3rem;
     }
 }
