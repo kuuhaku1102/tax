@@ -2,7 +2,7 @@
 Theme Name: Tax Matching Theme
 Theme URI: https://example.com
 Description: 税理士マッチングサイト用テーマ - 管理しやすく、更新しやすく、壊れにくい設計
-Version: 1.6.1
+Version: 1.7.0
 Author: InfinityDesign
 Author URI: https://example.com
 License: GNU General Public License v2 or later
@@ -504,12 +504,13 @@ body {
     margin: 4px 0;
 }
 
-/* Hero Section */
+/* Hero Section - ビジネスライク */
 .hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: #fff;
-    padding: 80px 20px;
+    background: linear-gradient(to bottom, #f8f9fa 0%, #fff 100%);
+    color: #1a1a1a;
+    padding: 100px 20px 80px;
     text-align: center;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 .hero__container {
@@ -521,12 +522,15 @@ body {
     font-size: 48px;
     margin: 0 0 24px;
     line-height: 1.3;
+    font-weight: 700;
+    color: #1a1a1a;
 }
 
 .hero__description {
     font-size: 18px;
     margin: 0 0 32px;
-    line-height: 1.6;
+    line-height: 1.7;
+    color: #555;
 }
 
 .hero__cta {
@@ -546,23 +550,26 @@ body {
 }
 
 .hero__button--primary {
-    background: #fff;
-    color: #667eea;
+    background: #0066cc;
+    color: #fff;
+    border: 2px solid #0066cc;
 }
 
 .hero__button--primary:hover {
-    background: #f0f0f0;
+    background: #0052a3;
+    border-color: #0052a3;
     transform: translateY(-2px);
 }
 
 .hero__button--secondary {
-    background: transparent;
-    color: #fff;
-    border: 2px solid #fff;
+    background: #fff;
+    color: #0066cc;
+    border: 2px solid #0066cc;
 }
 
 .hero__button--secondary:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: #0066cc;
+    color: #fff;
 }
 
 .hero__trust-signals {
@@ -580,12 +587,13 @@ body {
     font-size: 32px;
     font-weight: bold;
     margin-bottom: 8px;
+    color: #0066cc;
 }
 
 .trust-signal__label {
     display: block;
     font-size: 14px;
-    opacity: 0.9;
+    color: #666;
 }
 
 /* Section */
@@ -712,7 +720,7 @@ body {
     width: 64px;
     height: 64px;
     line-height: 64px;
-    background: #667eea;
+    background: #0066cc;
     color: #fff;
     border-radius: 50%;
     font-size: 32px;
@@ -791,29 +799,34 @@ body {
     line-height: 1.6;
 }
 
-/* Final CTA */
+/* Final CTA - ビジネスライク */
 .final-cta {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: #fff;
+    background: #f8f9fa;
+    color: #1a1a1a;
     padding: 80px 20px;
     text-align: center;
+    border-top: 1px solid #e0e0e0;
 }
 
 .final-cta__title {
     font-size: 36px;
     margin: 0 0 16px;
+    font-weight: 700;
+    color: #1a1a1a;
 }
 
 .final-cta__description {
     font-size: 18px;
     margin: 0 0 32px;
+    color: #555;
 }
 
 .final-cta__button {
     display: inline-block;
     padding: 16px 48px;
-    background: #fff;
-    color: #667eea;
+    background: #0066cc;
+    color: #fff;
+    border: 2px solid #0066cc;
     border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
@@ -822,7 +835,8 @@ body {
 }
 
 .final-cta__button:hover {
-    background: #f0f0f0;
+    background: #0052a3;
+    border-color: #0052a3;
     transform: translateY(-2px);
 }
 
