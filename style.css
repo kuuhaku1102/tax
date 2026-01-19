@@ -2,7 +2,7 @@
 Theme Name: Tax Matching Theme
 Theme URI: https://example.com
 Description: 税理士マッチングサイト用テーマ - 管理しやすく、更新しやすく、壊れにくい設計
-Version: 1.4.0
+Version: 1.5.0
 Author: InfinityDesign
 Author URI: https://example.com
 License: GNU General Public License v2 or later
@@ -1972,106 +1972,96 @@ body {
     }
 }
 
-/* ========================================
-   税理士サービス詳細ページ (single-tax_service.php)
-   ======================================== */
 
-.service-single {
-    background: #fff;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* ヘッダー部分 */
+/* ヘッダー部分 - シンプルで清潔感のあるデザイン */
 .service-single__header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: #fff;
-    padding: 60px 40px;
-    text-align: center;
+    background: #fff;
+    border-bottom: 3px solid #0066cc;
+    padding: 40px 40px 30px;
     position: relative;
 }
 
 .service-single__title {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-    line-height: 1.3;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    line-height: 1.4;
+    color: #1a1a1a;
 }
 
 .service-single__catchcopy {
-    font-size: 1.3rem;
-    margin-bottom: 30px;
-    opacity: 0.95;
-    line-height: 1.6;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    line-height: 1.7;
+    color: #555;
 }
 
-/* メタ情報 */
+/* メタ情報 - 整理されたタグ表示 */
 .service-single__meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 30px;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
 }
 
 .service-single__meta-item {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-size: 0.95rem;
+    background: #f5f5f5;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    border: 1px solid #ddd;
 }
 
 .service-single__meta-label {
-    font-weight: bold;
-    margin-right: 8px;
+    font-weight: 600;
+    margin-right: 6px;
+    color: #333;
 }
 
 .service-single__meta-item a {
-    color: #fff;
+    color: #0066cc;
     text-decoration: none;
-    margin: 0 5px;
-    transition: opacity 0.3s;
+    margin: 0 4px;
 }
 
 .service-single__meta-item a:hover {
-    opacity: 0.8;
     text-decoration: underline;
 }
 
-/* バッジ */
+/* バッジ - 控えめなデザイン */
 .service-single__badge {
     position: absolute;
     top: 20px;
     right: 20px;
-    padding: 10px 20px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    font-weight: bold;
+    padding: 6px 14px;
+    border-radius: 3px;
+    font-size: 0.85rem;
+    font-weight: 600;
     color: #fff;
 }
 
 .service-single__badge--premium {
-    background-color: #f0ad4e;
+    background-color: #ff9800;
 }
 
 .service-single__badge--standard {
-    background-color: #5bc0de;
+    background-color: #2196f3;
 }
 
 .service-single__badge--basic {
-    background-color: #999;
+    background-color: #757575;
 }
 
-/* アイキャッチ画像 */
+/* アイキャッチ画像 - シンプルな枠線 */
 .service-single__thumbnail {
     width: 100%;
-    max-width: 1000px;
-    margin: -40px auto 40px;
-    border-radius: 12px;
+    max-width: 900px;
+    margin: 30px auto;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    position: relative;
-    z-index: 10;
 }
 
 .service-single__thumbnail img {
@@ -2080,84 +2070,86 @@ body {
     display: block;
 }
 
-/* 本文 */
+/* 本文 - 読みやすさ重視 */
 .service-single__content {
     padding: 40px;
     max-width: 900px;
     margin: 0 auto;
     line-height: 1.8;
-    font-size: 1.05rem;
+    font-size: 1rem;
+    color: #333;
 }
 
 .service-single__content h2 {
-    font-size: 1.8rem;
-    color: #333;
+    font-size: 1.6rem;
+    color: #1a1a1a;
     margin-top: 40px;
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 3px solid #667eea;
+    border-bottom: 2px solid #0066cc;
+    font-weight: 600;
 }
 
 .service-single__content h3 {
-    font-size: 1.4rem;
-    color: #555;
+    font-size: 1.3rem;
+    color: #333;
     margin-top: 30px;
     margin-bottom: 15px;
+    font-weight: 600;
 }
 
 .service-single__content p {
-    margin-bottom: 15px;
+    margin-bottom: 16px;
 }
 
 .service-single__content ul,
 .service-single__content ol {
-    margin: 15px 0;
+    margin: 16px 0;
     padding-left: 30px;
 }
 
 .service-single__content li {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
-/* セクション共通スタイル */
+/* セクション共通スタイル - ビジネスライク */
 .service-single__section-title {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 25px;
-    padding: 15px 20px;
-    background: linear-gradient(to right, #667eea, transparent);
-    color: #fff;
-    border-radius: 6px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #0066cc;
 }
 
-/* 編集部のおすすめポイント */
+/* 編集部のおすすめポイント - 白背景にボーダー */
 .service-single__editor-review {
-    padding: 40px;
+    padding: 30px;
     max-width: 900px;
     margin: 40px auto;
-    background: #f8f9fa;
-    border-radius: 12px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
 }
 
 .service-single__rating {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
     margin-bottom: 20px;
     padding: 15px;
-    background: #fff;
-    border-radius: 8px;
+    background: #f9f9f9;
+    border-left: 3px solid #ff9800;
 }
 
 .service-single__rating-label {
-    font-weight: bold;
+    font-weight: 600;
     color: #333;
 }
 
 .service-single__rating-value {
-    font-size: 1.3rem;
-    color: #f0ad4e;
+    font-size: 1.2rem;
+    color: #ff9800;
 }
 
 .service-single__editor-content {
@@ -2165,14 +2157,14 @@ body {
     color: #555;
 }
 
-/* こんな人におすすめ */
+/* こんな人におすすめ - シンプルなボックス */
 .service-single__recommended {
-    padding: 40px;
+    padding: 30px;
     max-width: 900px;
     margin: 40px auto;
-    background: #fff;
-    border: 2px solid #667eea;
-    border-radius: 12px;
+    background: #f9f9f9;
+    border-left: 4px solid #0066cc;
+    border-radius: 4px;
 }
 
 .service-single__recommended-content {
@@ -2186,34 +2178,35 @@ body {
 }
 
 .service-single__recommended-content li {
-    padding: 12px 0;
-    padding-left: 30px;
+    padding: 10px 0;
+    padding-left: 25px;
     position: relative;
 }
 
 .service-single__recommended-content li:before {
-    content: "✓";
+    content: "●";
     position: absolute;
     left: 0;
-    color: #667eea;
-    font-weight: bold;
-    font-size: 1.2rem;
+    color: #0066cc;
+    font-size: 0.8rem;
 }
 
-/* 相談について */
+/* 相談について - 整理された表示 */
 .service-single__consultation {
-    padding: 40px;
+    padding: 30px;
     max-width: 900px;
     margin: 40px auto;
-    background: #f8f9fa;
-    border-radius: 12px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
 }
 
 .service-single__consultation h3 {
-    font-size: 1.2rem;
-    color: #333;
+    font-size: 1.1rem;
+    color: #1a1a1a;
     margin-bottom: 15px;
-    margin-top: 25px;
+    margin-top: 20px;
+    font-weight: 600;
 }
 
 .service-single__consultation-method ul {
@@ -2226,36 +2219,37 @@ body {
 
 .service-single__consultation-method li {
     background: #fff;
-    padding: 10px 20px;
-    border-radius: 20px;
-    border: 2px solid #667eea;
-    color: #667eea;
-    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 3px;
+    border: 1px solid #0066cc;
+    color: #0066cc;
+    font-weight: 500;
+    font-size: 0.9rem;
 }
 
 .service-single__response-time p {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #555;
     padding: 15px;
-    background: #fff;
-    border-radius: 8px;
-    border-left: 4px solid #667eea;
+    background: #f9f9f9;
+    border-left: 3px solid #0066cc;
 }
 
-/* お問い合わせボタン */
+/* お問い合わせボタン - ビジネス向けデザイン */
 .service-single__contact {
-    padding: 60px 40px;
+    padding: 40px;
     max-width: 900px;
     margin: 60px auto;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 12px;
+    background: #f5f5f5;
+    border: 2px solid #e0e0e0;
+    border-radius: 4px;
     text-align: center;
 }
 
 .service-single__contact .service-single__section-title {
-    background: transparent;
-    color: #fff;
     text-align: center;
+    border-bottom: none;
+    margin-bottom: 25px;
 }
 
 .service-single__contact-buttons {
@@ -2263,86 +2257,100 @@ body {
     flex-wrap: wrap;
     gap: 15px;
     justify-content: center;
-    margin-top: 30px;
+    margin-top: 25px;
 }
 
 .service-single__contact-button {
     display: inline-block;
-    padding: 16px 40px;
-    background: #fff;
-    color: #667eea;
+    padding: 14px 32px;
+    background: #0066cc;
+    color: #fff;
     text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 1.1rem;
-    transition: all 0.3s;
-    border: 3px solid #fff;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.2s;
+    border: 2px solid #0066cc;
 }
 
 .service-single__contact-button:hover {
-    background: transparent;
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    background: #0052a3;
+    border-color: #0052a3;
 }
 
 .service-single__contact-button--website {
-    background: #fff;
-    color: #667eea;
+    background: #0066cc;
+    border-color: #0066cc;
+}
+
+.service-single__contact-button--website:hover {
+    background: #0052a3;
+    border-color: #0052a3;
 }
 
 .service-single__contact-button--tel {
-    background: #fff;
-    color: #28a745;
+    background: #4caf50;
+    border-color: #4caf50;
+}
+
+.service-single__contact-button--tel:hover {
+    background: #388e3c;
+    border-color: #388e3c;
 }
 
 .service-single__contact-button--email {
     background: #fff;
-    color: #17a2b8;
+    color: #0066cc;
+    border-color: #0066cc;
 }
 
-/* 関連サービス */
+.service-single__contact-button--email:hover {
+    background: #0066cc;
+    color: #fff;
+}
+
+/* 関連サービス - シンプルな背景 */
 .service-single__related {
-    padding: 60px 40px;
+    padding: 50px 40px;
     max-width: 1200px;
     margin: 0 auto;
-    background: #f8f9fa;
+    background: #fafafa;
+    border-top: 1px solid #e0e0e0;
 }
 
 .service-single__related .service-single__section-title {
-    background: linear-gradient(to right, #667eea, transparent);
-    color: #fff;
     text-align: center;
 }
 
-/* 警告メッセージ */
+/* 警告メッセージ - 控えめなデザイン */
 .notice {
-    padding: 20px;
+    padding: 16px 20px;
     margin: 20px;
-    border-radius: 8px;
+    border-radius: 4px;
     text-align: center;
+    border: 1px solid #ffc107;
 }
 
 .notice-warning {
-    background: #fff3cd;
-    border: 2px solid #ffc107;
+    background: #fffbf0;
     color: #856404;
 }
 
 .notice p {
     margin: 0;
-    font-weight: bold;
+    font-weight: 500;
 }
 
-/* パンくずリスト */
+/* パンくずリスト - シンプルなデザイン */
 .breadcrumb {
-    padding: 15px 40px;
-    background: #f8f9fa;
+    padding: 12px 40px;
+    background: #fafafa;
     font-size: 0.9rem;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 .breadcrumb a {
-    color: #667eea;
+    color: #0066cc;
     text-decoration: none;
 }
 
@@ -2355,30 +2363,30 @@ body {
     color: #999;
 }
 
-/* サービス詳細情報テーブル */
+/* サービス詳細情報テーブル - ビジネス向けテーブル */
 .service-detail-table {
     width: 100%;
     max-width: 900px;
     margin: 40px auto;
     border-collapse: collapse;
     background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
 }
 
 .service-detail-table th {
-    background: #667eea;
-    color: #fff;
-    padding: 15px;
+    background: #f5f5f5;
+    color: #1a1a1a;
+    padding: 14px 16px;
     text-align: left;
-    font-weight: bold;
+    font-weight: 600;
     width: 30%;
+    border-bottom: 2px solid #e0e0e0;
 }
 
 .service-detail-table td {
-    padding: 15px;
-    border-bottom: 1px solid #eee;
+    padding: 14px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #555;
 }
 
 .service-detail-table tr:last-child td {
@@ -2388,31 +2396,30 @@ body {
 /* レスポンシブデザイン */
 @media (max-width: 768px) {
     .service-single__header {
-        padding: 40px 20px;
+        padding: 30px 20px 25px;
     }
     
     .service-single__title {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
     }
     
     .service-single__catchcopy {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
     
     .service-single__meta {
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
     }
     
     .service-single__badge {
         position: static;
         display: inline-block;
-        margin-top: 20px;
+        margin-top: 15px;
     }
     
     .service-single__thumbnail {
-        margin: -20px 20px 20px;
-        border-radius: 8px;
+        margin: 20px;
     }
     
     .service-single__content,
@@ -2425,8 +2432,7 @@ body {
     }
     
     .service-single__section-title {
-        font-size: 1.4rem;
-        padding: 12px 15px;
+        font-size: 1.3rem;
     }
     
     .service-single__contact-buttons {
@@ -2448,34 +2454,32 @@ body {
     
     .service-detail-table th,
     .service-detail-table td {
-        padding: 10px;
+        padding: 12px;
         display: block;
         width: 100%;
     }
     
     .service-detail-table th {
-        border-bottom: none;
+        border-bottom: 1px solid #e0e0e0;
     }
     
     .service-detail-table tr {
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         display: block;
-        border: 1px solid #eee;
-        border-radius: 8px;
-        overflow: hidden;
+        border: 1px solid #e0e0e0;
     }
 }
 
 @media (max-width: 480px) {
     .service-single__title {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
     
     .service-single__catchcopy {
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
     
     .service-single__content {
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
 }
