@@ -158,8 +158,18 @@ get_header(); ?>
                         <div class="service-single__consultation-method">
                             <h3>対応可能な相談方法</h3>
                             <ul>
-                                <?php foreach ($consultation_method as $method): ?>
-                                    <li><?php echo esc_html($method); ?></li>
+                                <?php 
+                                $method_labels = [
+                                    'face_to_face' => '対面',
+                                    'online' => 'オンライン',
+                                    'phone' => '電話',
+                                    'email' => 'メール',
+                                    'chat' => 'チャット',
+                                ];
+                                foreach ($consultation_method as $method): 
+                                    $label = isset($method_labels[$method]) ? $method_labels[$method] : $method;
+                                ?>
+                                    <li><?php echo esc_html($label); ?></li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
@@ -168,7 +178,16 @@ get_header(); ?>
                     <?php if ($response_time): ?>
                         <div class="service-single__response-time">
                             <h3>対応スピード</h3>
-                            <p><?php echo esc_html($response_time); ?></p>
+                            <p><?php 
+                            $time_labels = [
+                                'within_24hours' => '24時間以内',
+                                'within_3days' => '3営業日以内',
+                                'within_1week' => '1週間以内',
+                                'within_2weeks' => '2週間以内',
+                            ];
+                            $label = isset($time_labels[$response_time]) ? $time_labels[$response_time] : $response_time;
+                            echo esc_html($label); 
+                            ?></p>
                         </div>
                     <?php endif; ?>
                 </section>

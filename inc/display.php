@@ -135,7 +135,7 @@ function display_service_detail($post_id = null) {
         <div class="service-detail__basic">
             <h2 class="service-detail__heading">基本情報</h2>
             
-            <table class="service-detail__table">
+            <table class="service-detail-table">
                 <?php if ($office_name): ?>
                     <tr>
                         <th>事務所名</th>
