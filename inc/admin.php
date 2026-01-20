@@ -423,16 +423,28 @@ add_action('do_meta_boxes', function() {
     remove_meta_box('postcustom', 'tax_service', 'normal');
     remove_meta_box('postcustom', 'tax_service', 'side');
     
-    // タクソノミーメタボックスを削除
+    // タクソノミーメタボックスをサイドバーから削除
     remove_meta_box('service_industrydiv', 'tax_service', 'side');
     remove_meta_box('service_issuediv', 'tax_service', 'side');
     remove_meta_box('service_areadiv', 'tax_service', 'side');
+    remove_meta_box('service_phasediv', 'tax_service', 'side');
+    remove_meta_box('tagsdiv-service_tag', 'tax_service', 'side');
 });
 
 /**
  * エディター内にメタボックスを追加
  */
 add_action('add_meta_boxes', function() {
+    // 掲載制御メタボックス
+    add_meta_box(
+        'listing_control_box',
+        '掲載制御',
+        'render_listing_control_meta_box',
+        'tax_service',
+        'normal',
+        'high'
+    );
+    
     // タクソノミーメタボックス
     add_meta_box(
         'service_industry_box',
@@ -466,6 +478,105 @@ add_action('add_meta_boxes', function() {
 });
 
 /**
+ * 掲載制御メタボックスの表示
+ */
+function render_listing_control_meta_box($post) {
+    wp_nonce_field('listing_control_meta_box', 'listing_control_nonce');
+    
+    $listing_status = get_post_meta($post->ID, 'listing_status', true);
+    $listing_plan = get_post_meta($post->ID, 'listing_plan', true);
+    $priority_score = get_post_meta($post->ID, 'priority_score', true);
+    $listing_start_date = get_post_meta($post->ID, 'listing_start_date', true);
+    $listing_end_date = get_post_meta($post->ID, 'listing_end_date', true);
+    ?>
+    <table class="form-table">
+        <tr>
+            <th><label for="listing_status">掲載ステータス</label></th>
+            <td>
+                <label>
+                    <input type="checkbox" name="listing_status" id="listing_status" value="1" <?php checked($listing_status, '1'); ?>>
+                    ONにするとサイトに表示されます
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <th><label for="listing_plan">掲載プラン</label></th>
+            <td>
+                <select name="listing_plan" id="listing_plan">
+                    <option value="basic" <?php selected($listing_plan, 'basic'); ?>>ベーシック</option>
+                    <option value="standard" <?php selected($listing_plan, 'standard'); ?>>スタンダード</option>
+                    <option value="premium" <?php selected($listing_plan, 'premium'); ?>>プレミアム</option>
+                </select>
+                <p class="description">プレミアム &gt; スタンダード &gt; ベーシックの順で優先表示されます</p>
+            </td>
+        </tr>
+        <tr>
+            <th><label for="priority_score">優先度スコア</label></th>
+            <td>
+                <input type="number" name="priority_score" id="priority_score" value="<?php echo esc_attr($priority_score); ?>" min="0" max="1000">
+                <p class="description">数値が大きいほど上位に表示されます (0-1000)</p>
+            </td>
+        </tr>
+        <tr>
+            <th><label for="listing_start_date">掲載開始日</label></th>
+            <td>
+                <input type="date" name="listing_start_date" id="listing_start_date" value="<?php echo esc_attr($listing_start_date); ?>">
+                <p class="description">掲載を開始する日付を選択してください (空欄の場合は即時掲載)</p>
+            </td>
+        </tr>
+        <tr>
+            <th><label for="listing_end_date">掲載終了日</label></th>
+            <td>
+                <input type="date" name="listing_end_date" id="listing_end_date" value="<?php echo esc_attr($listing_end_date); ?>">
+                <p class="description">掲載を終了する日付を選択してください (空欄の場合は無期限)</p>
+            </td>
+        </tr>
+    </table>
+    <?php
+}
+
+/**
+ * 掲載制御メタボックスの保存
+ */
+add_action('save_post_tax_service', function($post_id) {
+    if (!isset($_POST['listing_control_nonce']) || !wp_verify_nonce($_POST['listing_control_nonce'], 'listing_control_meta_box')) {
+        return;
+    }
+    
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+    
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+    
+    // 掲載ステータス
+    $listing_status = isset($_POST['listing_status']) ? '1' : '0';
+    update_post_meta($post_id, 'listing_status', $listing_status);
+    
+    // 掲載プラン
+    if (isset($_POST['listing_plan'])) {
+        update_post_meta($post_id, 'listing_plan', sanitize_text_field($_POST['listing_plan']));
+    }
+    
+    // 優先度スコア
+    if (isset($_POST['priority_score'])) {
+        update_post_meta($post_id, 'priority_score', intval($_POST['priority_score']));
+    }
+    
+    // 掲載開始日
+    if (isset($_POST['listing_start_date'])) {
+        update_post_meta($post_id, 'listing_start_date', sanitize_text_field($_POST['listing_start_date']));
+    }
+    
+    // 掲載終了日
+    if (isset($_POST['listing_end_date'])) {
+        update_post_meta($post_id, 'listing_end_date', sanitize_text_field($_POST['listing_end_date']));
+    }
+});
+
+/**
  * 管理画面のスタイル調整
  */
 add_action('admin_head-post.php', function() {
@@ -475,6 +586,35 @@ add_action('admin_head-post.php', function() {
     }
     ?>
     <style>
+        /* 掲載制御メタボックスのスタイル */
+        #listing_control_box {
+            border-left: 4px solid #0066cc;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        #listing_control_box .hndle {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #0066cc;
+        }
+        
+        #listing_control_box .form-table th {
+            width: 200px;
+            font-weight: 600;
+        }
+        
+        #listing_control_box .form-table input[type="number"],
+        #listing_control_box .form-table input[type="date"],
+        #listing_control_box .form-table select {
+            width: 300px;
+        }
+        
+        #listing_control_box .description {
+            color: #666;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+        
         /* タクソノミーメタボックスのスタイル */
         #service_industry_box,
         #service_issue_box,
