@@ -203,3 +203,92 @@ function save_tax_office_meta_boxes($post_id) {
     }
 }
 add_action('save_post_tax_office', 'save_tax_office_meta_boxes');
+
+// 管理画面の一覧カラムをカスタマイズ
+function customize_tax_office_columns($columns) {
+    // デフォルトのカラムを削除
+    unset($columns['taxonomy-office_service']);
+    unset($columns['taxonomy-office_industry']);
+    
+    // 新しいカラムを追加
+    $new_columns = array();
+    foreach ($columns as $key => $value) {
+        $new_columns[$key] = $value;
+        
+        // タイトルの後に都道府県を追加
+        if ($key === 'title') {
+            $new_columns['prefecture'] = '所在都道府県';
+            $new_columns['services'] = '対応可能サービス';
+            $new_columns['industries'] = '対応業種';
+        }
+    }
+    
+    return $new_columns;
+}
+add_filter('manage_tax_office_posts_columns', 'customize_tax_office_columns');
+
+// カスタムカラムの内容を表示
+function display_tax_office_custom_columns($column, $post_id) {
+    switch ($column) {
+        case 'prefecture':
+            $terms = get_the_terms($post_id, 'office_prefecture');
+            if ($terms && !is_wp_error($terms)) {
+                $term_names = array();
+                foreach ($terms as $term) {
+                    $term_names[] = $term->name;
+                }
+                echo esc_html(implode(', ', $term_names));
+            } else {
+                echo '—';
+            }
+            break;
+            
+        case 'services':
+            $terms = get_the_terms($post_id, 'office_service');
+            if ($terms && !is_wp_error($terms)) {
+                $term_names = array();
+                $count = 0;
+                foreach ($terms as $term) {
+                    if ($count < 3) {
+                        $term_names[] = $term->name;
+                        $count++;
+                    }
+                }
+                echo esc_html(implode(', ', $term_names));
+                if (count($terms) > 3) {
+                    echo ' <span style="color: #999;">他' . (count($terms) - 3) . '件</span>';
+                }
+            } else {
+                echo '—';
+            }
+            break;
+            
+        case 'industries':
+            $terms = get_the_terms($post_id, 'office_industry');
+            if ($terms && !is_wp_error($terms)) {
+                $term_names = array();
+                $count = 0;
+                foreach ($terms as $term) {
+                    if ($count < 3) {
+                        $term_names[] = $term->name;
+                        $count++;
+                    }
+                }
+                echo esc_html(implode(', ', $term_names));
+                if (count($terms) > 3) {
+                    echo ' <span style="color: #999;">他' . (count($terms) - 3) . '件</span>';
+                }
+            } else {
+                echo '—';
+            }
+            break;
+    }
+}
+add_action('manage_tax_office_posts_custom_column', 'display_tax_office_custom_columns', 10, 2);
+
+// カラムのソート機能を追加
+function make_tax_office_columns_sortable($columns) {
+    $columns['prefecture'] = 'office_prefecture';
+    return $columns;
+}
+add_filter('manage_edit-tax_office_sortable_columns', 'make_tax_office_columns_sortable');
