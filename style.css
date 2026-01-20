@@ -2,7 +2,7 @@
 Theme Name: Tax Matching Theme
 Theme URI: https://example.com
 Description: 税理士マッチングサイト用テーマ - 管理しやすく、更新しやすく、壊れにくい設計
-Version: 1.9.0
+Version: 1.9.1
 Author: InfinityDesign
 Author URI: https://example.com
 License: GNU General Public License v2 or later
@@ -506,7 +506,7 @@ body {
 
 /* Hero Section - 背景画像 */
 .hero {
-    background-image: url('../images/hero-image.png');
+    background-image: url('images/hero-image.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
