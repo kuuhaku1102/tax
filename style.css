@@ -2,7 +2,7 @@
 Theme Name: Tax Matching Theme
 Theme URI: https://example.com
 Description: 税理士マッチングサイト用テーマ - 管理しやすく、更新しやすく、壊れにくい設計
-Version: 1.9.2
+Version: 2.0.0
 Author: InfinityDesign
 Author URI: https://example.com
 License: GNU General Public License v2 or later
@@ -508,31 +508,21 @@ body {
 .hero {
     background-image: url('images/hero-image.png');
     background-size: 80%;
-    background-position: center;
+    background-position: right center;
     background-repeat: no-repeat;
+    background-color: #f8f9fa;
     color: #1a1a1a;
     padding: 100px 20px 80px;
-    text-align: center;
+    text-align: left;
     border-bottom: 1px solid #e0e0e0;
     position: relative;
 }
 
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.85);
-    z-index: 1;
-}
-
 .hero__container {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
     position: relative;
-    z-index: 2;
+    padding-left: 40px;
 }
 
 .hero__title {
@@ -541,6 +531,7 @@ body {
     line-height: 1.3;
     font-weight: 700;
     color: #1a1a1a;
+    max-width: 600px;
 }
 
 .hero__description {
@@ -548,12 +539,13 @@ body {
     margin: 0 0 32px;
     line-height: 1.7;
     color: #555;
+    max-width: 600px;
 }
 
 .hero__cta {
     display: flex;
     gap: 16px;
-    justify-content: center;
+    justify-content: flex-start;
     margin-bottom: 48px;
 }
 
@@ -592,7 +584,7 @@ body {
 .hero__trust-signals {
     display: flex;
     gap: 48px;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .trust-signal {
@@ -942,17 +934,34 @@ body {
         display: block;
     }
     
+    .hero {
+        text-align: center;
+        background-position: center;
+        background-size: 100%;
+    }
+    
+    .hero__container {
+        padding-left: 20px;
+    }
+    
     .hero__title {
         font-size: 32px;
+        max-width: 100%;
+    }
+    
+    .hero__description {
+        max-width: 100%;
     }
     
     .hero__cta {
         flex-direction: column;
+        justify-content: center;
     }
     
     .hero__trust-signals {
         flex-direction: column;
         gap: 24px;
+        justify-content: center;
     }
     
     .section-header__title {
