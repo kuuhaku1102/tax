@@ -429,6 +429,18 @@ add_action('do_meta_boxes', function() {
     remove_meta_box('service_areadiv', 'tax_service', 'side');
     remove_meta_box('service_phasediv', 'tax_service', 'side');
     remove_meta_box('tagsdiv-service_tag', 'tax_service', 'side');
+    
+    // その他のサイドバーメタボックスを削除
+    remove_meta_box('submitdiv', 'tax_service', 'side'); // 公開
+    remove_meta_box('slugdiv', 'tax_service', 'side'); // スラッグ
+    remove_meta_box('categorydiv', 'tax_service', 'side'); // カテゴリー
+    remove_meta_box('tagsdiv-post_tag', 'tax_service', 'side'); // タグ
+    remove_meta_box('postimagediv', 'tax_service', 'side'); // アイキャッチ画像
+    remove_meta_box('pageparentdiv', 'tax_service', 'side'); // ページ属性
+    remove_meta_box('commentstatusdiv', 'tax_service', 'side'); // ディスカッション
+    remove_meta_box('commentsdiv', 'tax_service', 'side'); // コメント
+    remove_meta_box('authordiv', 'tax_service', 'side'); // 作成者
+    remove_meta_box('revisionsdiv', 'tax_service', 'side'); // リビジョン
 });
 
 /**
@@ -484,6 +496,7 @@ function render_listing_control_meta_box($post) {
     wp_nonce_field('listing_control_meta_box', 'listing_control_nonce');
     
     $listing_status = get_post_meta($post->ID, 'listing_status', true);
+    $featured_service = get_post_meta($post->ID, 'featured_service', true);
     $listing_plan = get_post_meta($post->ID, 'listing_plan', true);
     $priority_score = get_post_meta($post->ID, 'priority_score', true);
     $listing_start_date = get_post_meta($post->ID, 'listing_start_date', true);
@@ -497,6 +510,16 @@ function render_listing_control_meta_box($post) {
                     <input type="checkbox" name="listing_status" id="listing_status" value="1" <?php checked($listing_status, '1'); ?>>
                     ONにするとサイトに表示されます
                 </label>
+            </td>
+        </tr>
+        <tr>
+            <th><label for="featured_service">注目サービス</label></th>
+            <td>
+                <label>
+                    <input type="checkbox" name="featured_service" id="featured_service" value="1" <?php checked($featured_service, '1'); ?>>
+                    注目サービスにする
+                </label>
+                <p class="description">トップページや一覧ページで目立つ位置に表示されます</p>
             </td>
         </tr>
         <tr>
@@ -554,6 +577,10 @@ add_action('save_post_tax_service', function($post_id) {
     // 掲載ステータス
     $listing_status = isset($_POST['listing_status']) ? '1' : '0';
     update_post_meta($post_id, 'listing_status', $listing_status);
+    
+    // 注目サービス
+    $featured_service = isset($_POST['featured_service']) ? '1' : '0';
+    update_post_meta($post_id, 'featured_service', $featured_service);
     
     // 掲載プラン
     if (isset($_POST['listing_plan'])) {
