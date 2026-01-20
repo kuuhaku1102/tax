@@ -23,36 +23,43 @@ get_header(); ?>
          ======================================== -->
     <section class="hero" itemscope itemtype="https://schema.org/WebPageElement">
         <div class="hero__container">
-            <h1 class="hero__title" itemprop="name">
-                あなたに最適な税理士を見つける<br>
-                税理士マッチングサイト
-            </h1>
-            <p class="hero__description" itemprop="description">
-                業種・課題・エリアから、あなたのビジネスに最適な税理士サービスを簡単に検索・比較できます。
-                経験豊富な税理士があなたの事業をサポートします。
-            </p>
-            <div class="hero__cta">
-                <a href="<?php echo esc_url(get_services_archive_url()); ?>" class="hero__button hero__button--primary" rel="nofollow">
-                    税理士を探す
-                </a>
-                <a href="#how-it-works" class="hero__button hero__button--secondary">
-                    使い方を見る
-                </a>
-            </div>
-            
-            <!-- 信頼性の証明 -->
-            <div class="hero__trust-signals">
-                <div class="trust-signal">
-                    <span class="trust-signal__number"><?php echo esc_html(get_total_services_count()); ?></span>
-                    <span class="trust-signal__label">掲載サービス数</span>
+            <div class="hero__content">
+                <div class="hero__text">
+                    <h1 class="hero__title" itemprop="name">
+                        あなたに最適な税理士を見つける<br>
+                        税理士マッチングサイト
+                    </h1>
+                    <p class="hero__description" itemprop="description">
+                        業種・課題・エリアから、あなたのビジネスに最適な税理士サービスを簡単に検索・比較できます。
+                        経験豊富な税理士があなたの事業をサポートします。
+                    </p>
+                    <div class="hero__cta">
+                        <a href="<?php echo esc_url(get_services_archive_url()); ?>" class="hero__button hero__button--primary" rel="nofollow">
+                            税理士を探す
+                        </a>
+                        <a href="#how-it-works" class="hero__button hero__button--secondary">
+                            使い方を見る
+                        </a>
+                    </div>
+                    
+                    <!-- 信頼性の証明 -->
+                    <div class="hero__trust-signals">
+                        <div class="trust-signal">
+                            <span class="trust-signal__number"><?php echo esc_html(get_total_services_count()); ?></span>
+                            <span class="trust-signal__label">掲載サービス数</span>
+                        </div>
+                        <div class="trust-signal">
+                            <span class="trust-signal__number">全国</span>
+                            <span class="trust-signal__label">対応エリア</span>
+                        </div>
+                        <div class="trust-signal">
+                            <span class="trust-signal__number">無料</span>
+                            <span class="trust-signal__label">相談・比較</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="trust-signal">
-                    <span class="trust-signal__number">全国</span>
-                    <span class="trust-signal__label">対応エリア</span>
-                </div>
-                <div class="trust-signal">
-                    <span class="trust-signal__number">無料</span>
-                    <span class="trust-signal__label">相談・比較</span>
+                <div class="hero__image">
+                    <img src="<?php echo get_template_directory_uri(); ?>/images/hero-image.png" alt="経営者のための最適な税理士マッチング" width="1200" height="630">
                 </div>
             </div>
         </div>
