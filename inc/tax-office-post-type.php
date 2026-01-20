@@ -60,7 +60,7 @@ function register_tax_office_taxonomies() {
         ),
         'hierarchical'      => true,
         'show_ui'           => true,
-        'show_admin_column' => false,
+        'show_admin_column' => false,  // 完全に無効化
         'query_var'         => true,
         'rewrite'           => array('slug' => 'office-prefecture'),
         'show_in_rest'      => true,
@@ -81,7 +81,7 @@ function register_tax_office_taxonomies() {
         ),
         'hierarchical'      => false,
         'show_ui'           => true,
-        'show_admin_column' => false,
+        'show_admin_column' => false,  // 完全に無効化
         'query_var'         => true,
         'rewrite'           => array('slug' => 'office-service'),
         'show_in_rest'      => true,
@@ -102,7 +102,7 @@ function register_tax_office_taxonomies() {
         ),
         'hierarchical'      => false,
         'show_ui'           => true,
-        'show_admin_column' => false,
+        'show_admin_column' => false,  // 完全に無効化
         'query_var'         => true,
         'rewrite'           => array('slug' => 'office-industry'),
         'show_in_rest'      => true,
@@ -204,88 +204,59 @@ function save_tax_office_meta_boxes($post_id) {
 }
 add_action('save_post_tax_office', 'save_tax_office_meta_boxes');
 
-// 管理画面の一覧カラムをカスタマイズ
+// 管理画面の一覧カラムを完全にカスタマイズ
 function customize_tax_office_columns($columns) {
-    // すべてのタクソノミーカラムを削除（強制）
-    $columns_to_remove = array();
-    foreach ($columns as $key => $value) {
-        if (strpos($key, 'taxonomy-') === 0) {
-            $columns_to_remove[] = $key;
-        }
-    }
-    foreach ($columns_to_remove as $key) {
-        unset($columns[$key]);
-    }
-    
-    // カスタムカラムを追加
+    // 新しいカラム配列を作成
     $new_columns = array();
+    
     foreach ($columns as $key => $value) {
+        // タクソノミーカラムは完全にスキップ
+        if (strpos($key, 'taxonomy-') === 0) {
+            continue;
+        }
+        
         $new_columns[$key] = $value;
         
-        // タイトルの後に追加
+        // タイトルの後にカスタムカラムを追加
         if ($key === 'title') {
-            $new_columns['tax_office_prefecture'] = '所在都道府県';
-            $new_columns['tax_office_services'] = '対応可能サービス';
-            $new_columns['tax_office_industries'] = '対応業種';
+            $new_columns['custom_prefecture'] = '所在都道府県';
+            $new_columns['custom_services'] = '対応可能サービス';
+            $new_columns['custom_industries'] = '対応業種';
         }
     }
     
     return $new_columns;
 }
-add_filter('manage_tax_office_posts_columns', 'customize_tax_office_columns', 20);
+add_filter('manage_tax_office_posts_columns', 'customize_tax_office_columns', 999);
 
 // カスタムカラムの内容を表示
 function display_tax_office_custom_columns($column, $post_id) {
-    // タクソノミーのデフォルト表示を上書き
-    if (strpos($column, 'taxonomy-') === 0) {
-        $taxonomy = str_replace('taxonomy-', '', $column);
-        $terms = get_the_terms($post_id, $taxonomy);
-        
-        if ($terms && !is_wp_error($terms)) {
-            $term_names = array();
-            $count = 0;
-            foreach ($terms as $term) {
-                if ($count < 3) {
-                    $term_names[] = $term->name;
-                    $count++;
-                }
-            }
-            echo esc_html(implode(', ', $term_names));
-            if (count($terms) > 3) {
-                echo ' <span style="color: #999;">他' . (count($terms) - 3) . '件</span>';
-            }
-        } else {
-            echo '—';
-        }
-        return;
-    }
-    
     switch ($column) {
-        case 'tax_office_prefecture':
+        case 'custom_prefecture':
             $terms = get_the_terms($post_id, 'office_prefecture');
             if ($terms && !is_wp_error($terms)) {
                 $term_names = array();
                 foreach ($terms as $term) {
-                    $term_names[] = $term->name;
+                    $term_names[] = esc_html($term->name);
                 }
-                echo esc_html(implode(', ', $term_names));
+                echo implode(', ', $term_names);
             } else {
                 echo '—';
             }
             break;
             
-        case 'tax_office_services':
+        case 'custom_services':
             $terms = get_the_terms($post_id, 'office_service');
             if ($terms && !is_wp_error($terms)) {
                 $term_names = array();
                 $count = 0;
                 foreach ($terms as $term) {
                     if ($count < 3) {
-                        $term_names[] = $term->name;
+                        $term_names[] = esc_html($term->name);
                         $count++;
                     }
                 }
-                echo esc_html(implode(', ', $term_names));
+                echo implode(', ', $term_names);
                 if (count($terms) > 3) {
                     echo ' <span style="color: #999;">他' . (count($terms) - 3) . '件</span>';
                 }
@@ -294,18 +265,18 @@ function display_tax_office_custom_columns($column, $post_id) {
             }
             break;
             
-        case 'tax_office_industries':
+        case 'custom_industries':
             $terms = get_the_terms($post_id, 'office_industry');
             if ($terms && !is_wp_error($terms)) {
                 $term_names = array();
                 $count = 0;
                 foreach ($terms as $term) {
                     if ($count < 3) {
-                        $term_names[] = $term->name;
+                        $term_names[] = esc_html($term->name);
                         $count++;
                     }
                 }
-                echo esc_html(implode(', ', $term_names));
+                echo implode(', ', $term_names);
                 if (count($terms) > 3) {
                     echo ' <span style="color: #999;">他' . (count($terms) - 3) . '件</span>';
                 }
@@ -319,7 +290,7 @@ add_action('manage_tax_office_posts_custom_column', 'display_tax_office_custom_c
 
 // カラムのソート機能を追加
 function make_tax_office_columns_sortable($columns) {
-    $columns['tax_office_prefecture'] = 'office_prefecture';
+    $columns['custom_prefecture'] = 'office_prefecture';
     return $columns;
 }
 add_filter('manage_edit-tax_office_sortable_columns', 'make_tax_office_columns_sortable');
