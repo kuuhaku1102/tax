@@ -468,7 +468,7 @@ add_action('add_meta_boxes', function() {
     add_meta_box(
         'service_industry_box',
         '対応業種',
-        'post_categories_meta_box',
+        'render_taxonomy_meta_box',
         'tax_service',
         'normal',
         'default',
@@ -478,7 +478,7 @@ add_action('add_meta_boxes', function() {
     add_meta_box(
         'service_issue_box',
         '対応課題',
-        'post_categories_meta_box',
+        'render_taxonomy_meta_box',
         'tax_service',
         'normal',
         'default',
@@ -488,7 +488,7 @@ add_action('add_meta_boxes', function() {
     add_meta_box(
         'service_area_box',
         '対応エリア',
-        'post_categories_meta_box',
+        'render_taxonomy_meta_box',
         'tax_service',
         'normal',
         'default',
@@ -609,6 +609,44 @@ add_action('save_post_tax_service', function($post_id) {
         update_post_meta($post_id, 'listing_end_date', sanitize_text_field($_POST['listing_end_date']));
     }
 });
+
+/**
+ * タクソノミーメタボックスの表示
+ */
+function render_taxonomy_meta_box($post, $box) {
+    $taxonomy = $box['args']['taxonomy'];
+    $tax = get_taxonomy($taxonomy);
+    ?>
+    <div id="taxonomy-<?php echo $taxonomy; ?>" class="categorydiv">
+        <div id="<?php echo $taxonomy; ?>-all" class="tabs-panel">
+            <?php
+            $name = ($taxonomy == 'category') ? 'post_category' : 'tax_input[' . $taxonomy . ']';
+            echo "<input type='hidden' name='{$name}[]' value='0' />";
+            ?>
+            <ul id="<?php echo $taxonomy; ?>checklist" data-wp-lists="list:<?php echo $taxonomy; ?>" class="categorychecklist form-no-clear">
+                <?php
+                wp_terms_checklist($post->ID, array(
+                    'taxonomy' => $taxonomy,
+                    'popular_cats' => false
+                ));
+                ?>
+            </ul>
+        </div>
+        <div id="<?php echo $taxonomy; ?>-adder" class="wp-hidden-children">
+            <a id="<?php echo $taxonomy; ?>-add-toggle" href="#<?php echo $taxonomy; ?>-add" class="taxonomy-add-new">
+                + <?php echo $tax->labels->add_new_item; ?>
+            </a>
+            <p id="<?php echo $taxonomy; ?>-add" class="category-add wp-hidden-child">
+                <label class="screen-reader-text" for="new<?php echo $taxonomy; ?>"><?php echo $tax->labels->add_new_item; ?></label>
+                <input type="text" name="new<?php echo $taxonomy; ?>" id="new<?php echo $taxonomy; ?>" class="form-required form-input-tip" value="" aria-required="true"/>
+                <input type="button" id="<?php echo $taxonomy; ?>-add-submit" data-wp-lists="add:<?php echo $taxonomy; ?>checklist:<?php echo $taxonomy; ?>-add" class="button category-add-submit" value="<?php echo esc_attr($tax->labels->add_new_item); ?>"/>
+                <?php wp_nonce_field('add-' . $taxonomy, '_ajax_nonce-add-' . $taxonomy, false); ?>
+                <span id="<?php echo $taxonomy; ?>-ajax-response"></span>
+            </p>
+        </div>
+    </div>
+    <?php
+}
 
 /**
  * 管理画面のスタイル調整
