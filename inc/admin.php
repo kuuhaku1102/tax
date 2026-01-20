@@ -423,12 +423,19 @@ add_action('do_meta_boxes', function() {
     remove_meta_box('postcustom', 'tax_service', 'normal');
     remove_meta_box('postcustom', 'tax_service', 'side');
     
-    // タクソノミーメタボックスをサイドバーから削除
+    // タクソノミーメタボックスをサイドバーから削除（階層型）
     remove_meta_box('service_industrydiv', 'tax_service', 'side');
+    remove_meta_box('service_industrydiv', 'tax_service', 'normal');
     remove_meta_box('service_issuediv', 'tax_service', 'side');
+    remove_meta_box('service_issuediv', 'tax_service', 'normal');
     remove_meta_box('service_areadiv', 'tax_service', 'side');
+    remove_meta_box('service_areadiv', 'tax_service', 'normal');
     remove_meta_box('service_phasediv', 'tax_service', 'side');
+    remove_meta_box('service_phasediv', 'tax_service', 'normal');
+    
+    // タグ型タクソノミーを削除
     remove_meta_box('tagsdiv-service_tag', 'tax_service', 'side');
+    remove_meta_box('tagsdiv-service_tag', 'tax_service', 'normal');
     
     // その他のサイドバーメタボックスを削除
     remove_meta_box('submitdiv', 'tax_service', 'side'); // 公開
