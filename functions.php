@@ -149,6 +149,7 @@ $includes = [
     'inc/estimate-request.php', // 見積もり依頼機能
     'inc/contact-form.php',     // お問い合わせフォーム機能
     'inc/tax-office-post-type.php', // 税理士・会計事務所カスタム投稿タイプ
+    'inc/tax-office-importer-helper.php', // インポートヘルパー関数
     'inc/tax-office-importer.php',  // 税理士・会計事務所データインポート機能
 ];
 

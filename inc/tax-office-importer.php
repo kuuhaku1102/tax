@@ -149,7 +149,12 @@ function import_tax_offices_from_uploaded_files() {
         
         // データ構造を確認
         if (!isset($data['all_scraped_data']) || !is_array($data['all_scraped_data'])) {
-            $errors[] = $files['name'][$i] . ': データ構造が不正です';
+            // all_scraped_dataがない場合はサマリーデータのみなのでスキップ
+            continue;
+        }
+        
+        // 空の配列の場合もスキップ
+        if (empty($data['all_scraped_data'])) {
             continue;
         }
         
@@ -246,23 +251,4 @@ function import_tax_offices_from_uploaded_files() {
     );
 }
 
-// タームを取得または作成するヘルパー関数
-function get_or_create_term($term_name, $taxonomy) {
-    if (empty($term_name)) {
-        return null;
-    }
-    
-    // 既存のタームを検索
-    $term = term_exists($term_name, $taxonomy);
-    
-    if (!$term) {
-        // 新規作成
-        $term = wp_insert_term($term_name, $taxonomy);
-        
-        if (is_wp_error($term)) {
-            return null;
-        }
-    }
-    
-    return is_array($term) ? $term : null;
-}
+// ヘルパー関数は別ファイルに移動
