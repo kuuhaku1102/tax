@@ -234,7 +234,4 @@ add_action('after_setup_theme', function () {
     add_image_size('service-detail', 800, 600, true);
 });
 
-// ========================================
-// 管理画面UIカスタマイズ
-// ========================================
-require_once get_template_directory() . '/inc/admin-ui.php';
+
