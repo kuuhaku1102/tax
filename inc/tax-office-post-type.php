@@ -236,6 +236,30 @@ add_filter('manage_tax_office_posts_columns', 'customize_tax_office_columns', 20
 
 // カスタムカラムの内容を表示
 function display_tax_office_custom_columns($column, $post_id) {
+    // タクソノミーのデフォルト表示を上書き
+    if (strpos($column, 'taxonomy-') === 0) {
+        $taxonomy = str_replace('taxonomy-', '', $column);
+        $terms = get_the_terms($post_id, $taxonomy);
+        
+        if ($terms && !is_wp_error($terms)) {
+            $term_names = array();
+            $count = 0;
+            foreach ($terms as $term) {
+                if ($count < 3) {
+                    $term_names[] = $term->name;
+                    $count++;
+                }
+            }
+            echo esc_html(implode(', ', $term_names));
+            if (count($terms) > 3) {
+                echo ' <span style="color: #999;">他' . (count($terms) - 3) . '件</span>';
+            }
+        } else {
+            echo '—';
+        }
+        return;
+    }
+    
     switch ($column) {
         case 'tax_office_prefecture':
             $terms = get_the_terms($post_id, 'office_prefecture');
