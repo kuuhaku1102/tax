@@ -206,32 +206,38 @@ add_action('save_post_tax_office', 'save_tax_office_meta_boxes');
 
 // 管理画面の一覧カラムをカスタマイズ
 function customize_tax_office_columns($columns) {
-    // デフォルトのタクソノミーカラムを削除
-    unset($columns['taxonomy-office_prefecture']);
-    unset($columns['taxonomy-office_service']);
-    unset($columns['taxonomy-office_industry']);
+    // すべてのタクソノミーカラムを削除（強制）
+    $columns_to_remove = array();
+    foreach ($columns as $key => $value) {
+        if (strpos($key, 'taxonomy-') === 0) {
+            $columns_to_remove[] = $key;
+        }
+    }
+    foreach ($columns_to_remove as $key) {
+        unset($columns[$key]);
+    }
     
-    // 新しいカラムを追加
+    // カスタムカラムを追加
     $new_columns = array();
     foreach ($columns as $key => $value) {
         $new_columns[$key] = $value;
         
-        // タイトルの後にカスタムカラムを追加
+        // タイトルの後に追加
         if ($key === 'title') {
-            $new_columns['prefecture'] = '所在都道府県';
-            $new_columns['services'] = '対応可能サービス';
-            $new_columns['industries'] = '対応業種';
+            $new_columns['tax_office_prefecture'] = '所在都道府県';
+            $new_columns['tax_office_services'] = '対応可能サービス';
+            $new_columns['tax_office_industries'] = '対応業種';
         }
     }
     
     return $new_columns;
 }
-add_filter('manage_tax_office_posts_columns', 'customize_tax_office_columns');
+add_filter('manage_tax_office_posts_columns', 'customize_tax_office_columns', 20);
 
 // カスタムカラムの内容を表示
 function display_tax_office_custom_columns($column, $post_id) {
     switch ($column) {
-        case 'prefecture':
+        case 'tax_office_prefecture':
             $terms = get_the_terms($post_id, 'office_prefecture');
             if ($terms && !is_wp_error($terms)) {
                 $term_names = array();
@@ -244,7 +250,7 @@ function display_tax_office_custom_columns($column, $post_id) {
             }
             break;
             
-        case 'services':
+        case 'tax_office_services':
             $terms = get_the_terms($post_id, 'office_service');
             if ($terms && !is_wp_error($terms)) {
                 $term_names = array();
@@ -264,7 +270,7 @@ function display_tax_office_custom_columns($column, $post_id) {
             }
             break;
             
-        case 'industries':
+        case 'tax_office_industries':
             $terms = get_the_terms($post_id, 'office_industry');
             if ($terms && !is_wp_error($terms)) {
                 $term_names = array();
@@ -289,7 +295,7 @@ add_action('manage_tax_office_posts_custom_column', 'display_tax_office_custom_c
 
 // カラムのソート機能を追加
 function make_tax_office_columns_sortable($columns) {
-    $columns['prefecture'] = 'office_prefecture';
+    $columns['tax_office_prefecture'] = 'office_prefecture';
     return $columns;
 }
 add_filter('manage_edit-tax_office_sortable_columns', 'make_tax_office_columns_sortable');
