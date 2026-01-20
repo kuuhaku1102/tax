@@ -235,5 +235,6 @@ add_action('after_setup_theme', function () {
 });
 
 // ========================================
-// ACFフィールド定義の読み込み
+// 管理画面UIカスタマイズ
 // ========================================
+require_once get_template_directory() . '/inc/admin-ui.php';
