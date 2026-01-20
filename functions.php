@@ -148,6 +148,8 @@ $includes = [
     'inc/admin.php',            // 管理画面カスタマイズ
     'inc/estimate-request.php', // 見積もり依頼機能
     'inc/contact-form.php',     // お問い合わせフォーム機能
+    'inc/tax-office-post-type.php', // 税理士・会計事務所カスタム投稿タイプ
+    'inc/tax-office-importer.php',  // 税理士・会計事務所データインポート機能
 ];
 
 foreach ($includes as $file) {
