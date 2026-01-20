@@ -237,9 +237,3 @@ add_action('after_setup_theme', function () {
 // ========================================
 // ACFフィールド定義の読み込み
 // ========================================
-require_once get_template_directory() . '/inc/acf-fields.php';
-require_once get_template_directory() . '/inc/admin-customize.php';
-
-// ACFフィールド定義と管理画面カスタマイズ
-require_once get_template_directory() . '/inc/acf-fields.php';
-require_once get_template_directory() . '/inc/admin-customize.php';
