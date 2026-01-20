@@ -410,3 +410,93 @@ function display_tax_service_stats_widget() {
     </p>
     <?php
 }
+
+// ========================================
+// メタボックスをエディター内に移動
+// ========================================
+
+/**
+ * サイドバーのメタボックスを削除
+ */
+add_action('do_meta_boxes', function() {
+    // デフォルトのカスタムフィールドメタボックスを削除
+    remove_meta_box('postcustom', 'tax_service', 'normal');
+    remove_meta_box('postcustom', 'tax_service', 'side');
+    
+    // タクソノミーメタボックスを削除
+    remove_meta_box('service_industrydiv', 'tax_service', 'side');
+    remove_meta_box('service_issuediv', 'tax_service', 'side');
+    remove_meta_box('service_areadiv', 'tax_service', 'side');
+});
+
+/**
+ * エディター内にメタボックスを追加
+ */
+add_action('add_meta_boxes', function() {
+    // タクソノミーメタボックス
+    add_meta_box(
+        'service_industry_box',
+        '対応業種',
+        'post_categories_meta_box',
+        'tax_service',
+        'normal',
+        'default',
+        array('taxonomy' => 'service_industry')
+    );
+    
+    add_meta_box(
+        'service_issue_box',
+        '対応課題',
+        'post_categories_meta_box',
+        'tax_service',
+        'normal',
+        'default',
+        array('taxonomy' => 'service_issue')
+    );
+    
+    add_meta_box(
+        'service_area_box',
+        '対応エリア',
+        'post_categories_meta_box',
+        'tax_service',
+        'normal',
+        'default',
+        array('taxonomy' => 'service_area')
+    );
+});
+
+/**
+ * 管理画面のスタイル調整
+ */
+add_action('admin_head-post.php', function() {
+    global $post_type;
+    if ($post_type !== 'tax_service') {
+        return;
+    }
+    ?>
+    <style>
+        /* タクソノミーメタボックスのスタイル */
+        #service_industry_box,
+        #service_issue_box,
+        #service_area_box {
+            border-left: 4px solid #0066cc;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        #service_industry_box .hndle,
+        #service_issue_box .hndle,
+        #service_area_box .hndle {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #0066cc;
+        }
+        
+        #service_industry_box .inside,
+        #service_issue_box .inside,
+        #service_area_box .inside {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+    <?php
+});
