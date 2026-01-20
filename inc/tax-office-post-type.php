@@ -60,7 +60,7 @@ function register_tax_office_taxonomies() {
         ),
         'hierarchical'      => true,
         'show_ui'           => true,
-        'show_admin_column' => true,
+        'show_admin_column' => false,
         'query_var'         => true,
         'rewrite'           => array('slug' => 'office-prefecture'),
         'show_in_rest'      => true,
@@ -81,7 +81,7 @@ function register_tax_office_taxonomies() {
         ),
         'hierarchical'      => false,
         'show_ui'           => true,
-        'show_admin_column' => true,
+        'show_admin_column' => false,
         'query_var'         => true,
         'rewrite'           => array('slug' => 'office-service'),
         'show_in_rest'      => true,
@@ -102,7 +102,7 @@ function register_tax_office_taxonomies() {
         ),
         'hierarchical'      => false,
         'show_ui'           => true,
-        'show_admin_column' => true,
+        'show_admin_column' => false,
         'query_var'         => true,
         'rewrite'           => array('slug' => 'office-industry'),
         'show_in_rest'      => true,
@@ -206,7 +206,8 @@ add_action('save_post_tax_office', 'save_tax_office_meta_boxes');
 
 // 管理画面の一覧カラムをカスタマイズ
 function customize_tax_office_columns($columns) {
-    // デフォルトのカラムを削除
+    // デフォルトのタクソノミーカラムを削除
+    unset($columns['taxonomy-office_prefecture']);
     unset($columns['taxonomy-office_service']);
     unset($columns['taxonomy-office_industry']);
     
@@ -215,7 +216,7 @@ function customize_tax_office_columns($columns) {
     foreach ($columns as $key => $value) {
         $new_columns[$key] = $value;
         
-        // タイトルの後に都道府県を追加
+        // タイトルの後にカスタムカラムを追加
         if ($key === 'title') {
             $new_columns['prefecture'] = '所在都道府県';
             $new_columns['services'] = '対応可能サービス';
