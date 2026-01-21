@@ -40,10 +40,51 @@ get_header(); ?>
                     <?php if (function_exists('display_taxonomy_filter')): ?>
                         <?php display_taxonomy_filter('service_industry', '業種'); ?>
                         <?php display_taxonomy_filter('service_issue', '課題・目的'); ?>
-                        <?php display_taxonomy_filter('service_area', '対応エリア'); ?>
                     <?php endif; ?>
                     
-                    <!-- 都道府県フィルター（税理士事務所用） -->
+                    <!-- 得意業種フィルター -->
+                    <div class="service-filter__field">
+                        <label class="service-filter__label">得意業種</label>
+                        <select name="office_industry" class="service-filter__select">
+                            <option value="">すべて</option>
+                            <?php
+                            if (function_exists('get_all_office_industries')):
+                                $industries = get_all_office_industries();
+                                foreach ($industries as $industry):
+                                    $selected = isset($_GET['office_industry']) && $_GET['office_industry'] == $industry ? 'selected' : '';
+                            ?>
+                                    <option value="<?php echo esc_attr($industry); ?>" <?php echo $selected; ?>>
+                                        <?php echo esc_html($industry); ?>
+                                    </option>
+                            <?php
+                                endforeach;
+                            endif;
+                            ?>
+                        </select>
+                    </div>
+                    
+                    <!-- 得意分野フィルター -->
+                    <div class="service-filter__field">
+                        <label class="service-filter__label">得意分野</label>
+                        <select name="office_service" class="service-filter__select">
+                            <option value="">すべて</option>
+                            <?php
+                            if (function_exists('get_all_office_services')):
+                                $services = get_all_office_services();
+                                foreach ($services as $service):
+                                    $selected = isset($_GET['office_service']) && $_GET['office_service'] == $service ? 'selected' : '';
+                            ?>
+                                    <option value="<?php echo esc_attr($service); ?>" <?php echo $selected; ?>>
+                                        <?php echo esc_html($service); ?>
+                                    </option>
+                            <?php
+                                endforeach;
+                            endif;
+                            ?>
+                        </select>
+                    </div>
+                    
+                    <!-- 都道府県フィルター -->
                     <div class="service-filter__field">
                         <label class="service-filter__label">都道府県</label>
                         <select name="office_prefecture" class="service-filter__select">
@@ -216,11 +257,32 @@ get_header(); ?>
                     );
                 }
                 
-                // 業種や得意分野でのメタクエリ検索
+                // 得意業種・得意分野でのメタクエリ検索
+                $meta_query = array('relation' => 'AND');
+                
+                // 得意業種で絞り込み
+                if (isset($_GET['office_industry']) && !empty($_GET['office_industry'])) {
+                    $meta_query[] = array(
+                        'key' => '_tax_office_industries',
+                        'value' => $_GET['office_industry'],
+                        'compare' => 'LIKE',
+                    );
+                }
+                
+                // 得意分野で絞り込み
+                if (isset($_GET['office_service']) && !empty($_GET['office_service'])) {
+                    $meta_query[] = array(
+                        'key' => '_tax_office_services',
+                        'value' => $_GET['office_service'],
+                        'compare' => 'LIKE',
+                    );
+                }
+                
+                // 業種フィルター（税理士サービス用）でも検索
                 if (isset($_GET['service_industry']) && !empty($_GET['service_industry'])) {
                     $search_term = get_term_by('slug', $_GET['service_industry'], 'service_industry');
                     if ($search_term) {
-                        $office_query_args['meta_query'] = array(
+                        $meta_query[] = array(
                             'relation' => 'OR',
                             array(
                                 'key' => '_tax_office_services',
@@ -234,6 +296,10 @@ get_header(); ?>
                             ),
                         );
                     }
+                }
+                
+                if (count($meta_query) > 1) {
+                    $office_query_args['meta_query'] = $meta_query;
                 }
                 
                 $offices_query = new WP_Query($office_query_args);

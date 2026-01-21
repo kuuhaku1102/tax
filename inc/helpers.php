@@ -276,3 +276,72 @@ function debug_output($data, $label = 'Debug') {
         echo '</pre>';
     }
 }
+
+
+// ========================================
+// 税理士事務所の得意分野・得意業種関連
+// ========================================
+
+/**
+ * 全税理士事務所の得意分野を取得
+ * 
+ * @return array 得意分野の配列（重複なし、ソート済み）
+ */
+function get_all_office_services() {
+    global $wpdb;
+    
+    $services = array();
+    
+    // すべての税理士事務所の得意分野を取得
+    $results = $wpdb->get_results("
+        SELECT meta_value 
+        FROM {$wpdb->postmeta} 
+        WHERE meta_key = '_tax_office_services' 
+        AND meta_value != ''
+    ");
+    
+    foreach ($results as $result) {
+        $services_array = json_decode($result->meta_value, true);
+        if (is_array($services_array)) {
+            $services = array_merge($services, $services_array);
+        }
+    }
+    
+    // 重複を削除してソート
+    $services = array_unique($services);
+    sort($services);
+    
+    return $services;
+}
+
+/**
+ * 全税理士事務所の得意業種を取得
+ * 
+ * @return array 得意業種の配列（重複なし、ソート済み）
+ */
+function get_all_office_industries() {
+    global $wpdb;
+    
+    $industries = array();
+    
+    // すべての税理士事務所の得意業種を取得
+    $results = $wpdb->get_results("
+        SELECT meta_value 
+        FROM {$wpdb->postmeta} 
+        WHERE meta_key = '_tax_office_industries' 
+        AND meta_value != ''
+    ");
+    
+    foreach ($results as $result) {
+        $industries_array = json_decode($result->meta_value, true);
+        if (is_array($industries_array)) {
+            $industries = array_merge($industries, $industries_array);
+        }
+    }
+    
+    // 重複を削除してソート
+    $industries = array_unique($industries);
+    sort($industries);
+    
+    return $industries;
+}
