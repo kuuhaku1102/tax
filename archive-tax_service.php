@@ -260,12 +260,12 @@ get_header(); ?>
                     </div>
                     
                     <!-- 事務所カード一覧 -->
-                    <div class="service-cards">
+                    <div class="office-cards">
                         <?php while ($offices_query->have_posts()): $offices_query->the_post(); ?>
-                            <article class="service-card">
-                                <a href="<?php the_permalink(); ?>" class="service-card__link">
+                            <article class="office-card">
+                                <a href="<?php the_permalink(); ?>" class="office-card__link">
                                     
-                                    <div class="service-card__thumbnail">
+                                    <div class="office-card__thumbnail">
                                         <?php if (has_post_thumbnail()): ?>
                                             <?php the_post_thumbnail('service-card'); ?>
                                         <?php else: ?>
@@ -273,16 +273,16 @@ get_header(); ?>
                                         <?php endif; ?>
                                     </div>
                                     
-                                    <div class="service-card__content">
-                                        <h3 class="service-card__title"><?php the_title(); ?></h3>
+                                    <div class="office-card__content">
+                                        <h3 class="office-card__title"><?php the_title(); ?></h3>
                                         
                                         <!-- 都道府県 -->
                                         <?php
                                         $prefectures = get_the_terms(get_the_ID(), 'office_prefecture');
                                         if ($prefectures && !is_wp_error($prefectures)):
                                         ?>
-                                            <div class="service-card__meta">
-                                                <span class="service-card__meta-label">📍</span>
+                                            <div class="office-card__meta">
+                                                <span class="office-card__meta-label">📍</span>
                                                 <?php
                                                 $prefecture_names = array();
                                                 foreach ($prefectures as $prefecture) {
@@ -301,12 +301,12 @@ get_header(); ?>
                                             if (!empty($services_array)):
                                                 $display_services = array_slice($services_array, 0, 3);
                                         ?>
-                                            <div class="service-card__tags">
+                                            <div class="office-card__tags">
                                                 <?php foreach ($display_services as $service): ?>
-                                                    <span class="service-card__tag"><?php echo esc_html($service); ?></span>
+                                                    <span class="office-card__tag"><?php echo esc_html($service); ?></span>
                                                 <?php endforeach; ?>
                                                 <?php if (count($services_array) > 3): ?>
-                                                    <span class="service-card__tag-more">他<?php echo count($services_array) - 3; ?>件</span>
+                                                    <span class="office-card__tag-more">他<?php echo count($services_array) - 3; ?>件</span>
                                                 <?php endif; ?>
                                             </div>
                                         <?php 
@@ -314,8 +314,8 @@ get_header(); ?>
                                         endif; 
                                         ?>
                                         
-                                        <div class="service-card__footer">
-                                            <span class="service-card__link-text">詳細を見る →</span>
+                                        <div class="office-card__footer">
+                                            <span class="office-card__link-text">詳細を見る →</span>
                                         </div>
                                     </div>
                                 </a>
@@ -327,13 +327,29 @@ get_header(); ?>
                     <?php if ($offices_query->max_num_pages > 1): ?>
                         <div class="pagination">
                             <?php
-                            echo paginate_links(array(
+                            $pagination_args = array(
                                 'total' => $offices_query->max_num_pages,
                                 'current' => $paged,
-                                'format' => '?paged=%#%',
                                 'prev_text' => '« 前へ',
                                 'next_text' => '次へ »',
-                            ));
+                                'add_args' => array(),
+                            );
+                            
+                            // 検索パラメータを保持
+                            if (isset($_GET['office_industry'])) {
+                                $pagination_args['add_args']['office_industry'] = $_GET['office_industry'];
+                            }
+                            if (isset($_GET['office_service'])) {
+                                $pagination_args['add_args']['office_service'] = $_GET['office_service'];
+                            }
+                            if (isset($_GET['office_prefecture'])) {
+                                $pagination_args['add_args']['office_prefecture'] = $_GET['office_prefecture'];
+                            }
+                            if (isset($_GET['orderby'])) {
+                                $pagination_args['add_args']['orderby'] = $_GET['orderby'];
+                            }
+                            
+                            echo paginate_links($pagination_args);
                             ?>
                         </div>
                     <?php endif; ?>

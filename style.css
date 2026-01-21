@@ -3343,3 +3343,144 @@ body {
         padding: 30px 0;
     }
 }
+
+
+/* ========================================
+   税理士事務所カード（office-card）
+   税理士サービスカードとは別のスタイル
+   ======================================== */
+
+.office-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.office-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.office-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    border-color: #3b82f6;
+}
+
+.office-card__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+}
+
+.office-card__thumbnail {
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+    overflow: hidden;
+}
+
+.office-card__thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.office-card__content {
+    padding: 20px;
+}
+
+.office-card__title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+}
+
+.office-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 12px;
+}
+
+.office-card__meta-label {
+    font-size: 16px;
+}
+
+.office-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.office-card__tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background: #eff6ff;
+    color: #1e40af;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 16px;
+    white-space: nowrap;
+}
+
+.office-card__tag-more {
+    display: inline-block;
+    padding: 4px 12px;
+    background: #f3f4f6;
+    color: #6b7280;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 16px;
+    white-space: nowrap;
+}
+
+.office-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-top: 12px;
+    border-top: 1px solid #f3f4f6;
+}
+
+.office-card__link-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #3b82f6;
+    transition: color 0.2s ease;
+}
+
+.office-card:hover .office-card__link-text {
+    color: #1e40af;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .office-cards {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .office-card__thumbnail {
+        height: 150px;
+        font-size: 48px;
+    }
+    
+    .office-card__title {
+        font-size: 16px;
+    }
+}
