@@ -23,9 +23,9 @@ get_header(); ?>
     <!-- ページヘッダー -->
     <header class="archive-header">
         <div class="container">
-            <h1 class="archive-header__title">税理士・会計事務所を探す</h1>
+            <h1 class="archive-header__title">税理士を探す</h1>
             <p class="archive-header__description">
-                得意業種・得意分野・都道府県から、あなたに最適な税理士事務所を見つけましょう
+                得意業種・得意分野・都道府県から、あなたに最適な税理士サービス・事務所を見つけましょう
             </p>
         </div>
     </header>
@@ -128,9 +128,79 @@ get_header(); ?>
             </form>
         </div>
         
+        <!-- 税理士サービスセクション -->
+        <section class="service-section">
+            <h2 class="section-title">
+                <span class="section-title__icon">💼</span>
+                税理士サービス
+            </h2>
+            
+            <div class="service-archive">
+                
+                <?php
+                // 税理士サービスのクエリ
+                $service_query_args = array(
+                    'post_type' => 'tax_service',
+                    'posts_per_page' => 6,
+                    'orderby' => isset($_GET['orderby']) ? $_GET['orderby'] : 'date',
+                    'order' => 'DESC',
+                );
+                
+                $services_query = new WP_Query($service_query_args);
+                
+                if ($services_query->have_posts()):
+                ?>
+                    
+                    <!-- 検索結果の件数表示 -->
+                    <div class="service-archive__count">
+                        <p><strong><?php echo esc_html($services_query->found_posts); ?>件</strong>のサービスが見つかりました</p>
+                    </div>
+                    
+                    <!-- サービスカード一覧 -->
+                    <div class="service-cards">
+                        <?php while ($services_query->have_posts()): $services_query->the_post(); ?>
+                            <?php if (function_exists('display_service_card')): ?>
+                                <?php display_service_card(get_the_ID()); ?>
+                            <?php else: ?>
+                                <article class="service-card">
+                                    <a href="<?php the_permalink(); ?>">
+                                        <h3><?php the_title(); ?></h3>
+                                    </a>
+                                </article>
+                            <?php endif; ?>
+                        <?php endwhile; ?>
+                    </div>
+                    
+                    <?php if ($services_query->found_posts > 6): ?>
+                        <div class="section-footer">
+                            <a href="<?php echo esc_url(get_post_type_archive_link('tax_service')); ?>" class="button button--secondary">
+                                すべての税理士サービスを見る →
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                    
+                <?php else: ?>
+                    
+                    <!-- 検索結果なし -->
+                    <div class="service-archive__no-results">
+                        <p class="no-results-text">条件に一致するサービスが見つかりませんでした</p>
+                    </div>
+                    
+                <?php endif; ?>
+                
+                <?php wp_reset_postdata(); ?>
+                
+            </div>
+        </section>
         
-        <!-- 税理士事務所一覧 -->
-        <div class="service-archive">
+        <!-- 税理士事務所セクション -->
+        <section class="service-section tax-office-section">
+            <h2 class="section-title">
+                <span class="section-title__icon">🏛️</span>
+                税理士・会計事務所
+            </h2>
+            
+            <div class="service-archive">
                 
                 <?php
                 // 税理士事務所のクエリ
@@ -279,7 +349,8 @@ get_header(); ?>
                 
                 <?php wp_reset_postdata(); ?>
                 
-        </div>
+            </div>
+        </section>
         
     </div>
     
