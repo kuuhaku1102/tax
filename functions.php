@@ -266,3 +266,49 @@ add_action('parse_request', function($wp) {
         $wp->query_vars['paged'] = intval($_GET['paged']);
     }
 });
+
+// ========================================
+// /services/ URLのクエリパラメータ処理
+// ========================================
+
+/**
+ * /services/ アーカイブでクエリパラメータを認識させる
+ * 
+ * 設計意図:
+ * - tax_serviceとtax_officeが同じスラッグ'services'を使用
+ * - クエリパラメータ付きURLでも正しくアーカイブページを表示
+ * - 404エラーを防ぐ
+ */
+add_action('pre_get_posts', function($query) {
+    // 管理画面では実行しない
+    if (is_admin() || !$query->is_main_query()) {
+        return;
+    }
+    
+    // /services/ アーカイブページの場合
+    if ($query->is_post_type_archive('tax_office') || $query->is_post_type_archive('tax_service')) {
+        // クエリパラメータがある場合、404を防ぐ
+        if (isset($_GET['office_industry']) || isset($_GET['office_service']) || isset($_GET['office_prefecture'])) {
+            $query->set('post_type', 'tax_office');
+            $query->is_404 = false;
+            status_header(200);
+        }
+    }
+});
+
+/**
+ * テンプレート階層をカスタマイズ
+ * 
+ * 設計意図:
+ * - tax_officeとtax_serviceの両方で同じテンプレートを使用
+ * - archive-tax_office.phpを優先的に使用
+ */
+add_filter('template_include', function($template) {
+    if (is_post_type_archive('tax_service') || is_post_type_archive('tax_office')) {
+        $custom_template = locate_template('archive-tax_office.php');
+        if ($custom_template) {
+            return $custom_template;
+        }
+    }
+    return $template;
+}, 99);
