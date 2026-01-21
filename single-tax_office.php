@@ -41,11 +41,15 @@ get_header(); ?>
             </header>
             
             <!-- アイキャッチ画像 -->
-            <?php if (has_post_thumbnail()): ?>
-                <div class="tax-office-single__thumbnail">
+            <div class="tax-office-single__thumbnail">
+                <?php if (has_post_thumbnail()): ?>
                     <?php the_post_thumbnail('service-detail'); ?>
-                </div>
-            <?php endif; ?>
+                <?php else: ?>
+                    <div style="width: 100%; height: 300px; background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 5rem;">
+                        🏛️
+                    </div>
+                <?php endif; ?>
+            </div>
             
             <!-- 本文 -->
             <?php if (get_the_content()): ?>

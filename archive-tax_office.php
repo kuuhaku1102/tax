@@ -8,7 +8,7 @@
 
 get_header(); ?>
 
-<main class="site-main archive-page">
+<main class="site-main archive-page tax-office-archive">
     
     <!-- パンくずリスト -->
     <?php if (function_exists('display_breadcrumb')) display_breadcrumb(); ?>
@@ -118,11 +118,13 @@ get_header(); ?>
                         <article class="service-card">
                             <a href="<?php the_permalink(); ?>" class="service-card__link">
                                 
-                                <?php if (has_post_thumbnail()): ?>
-                                    <div class="service-card__thumbnail">
+                                <div class="service-card__thumbnail">
+                                    <?php if (has_post_thumbnail()): ?>
                                         <?php the_post_thumbnail('service-card'); ?>
-                                    </div>
-                                <?php endif; ?>
+                                    <?php else: ?>
+                                        🏛️
+                                    <?php endif; ?>
+                                </div>
                                 
                                 <div class="service-card__content">
                                     <h2 class="service-card__title"><?php the_title(); ?></h2>

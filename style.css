@@ -2708,3 +2708,584 @@ body {
         font-size: 1.3rem;
     }
 }
+
+/* ========================================
+   税理士事務所ページ - ビジネスライクデザイン
+   ======================================== */
+
+/* アーカイブページ */
+.tax-office-archive {
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+.tax-office-archive .archive-header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.tax-office-archive .archive-header__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    letter-spacing: -0.5px;
+}
+
+.tax-office-archive .archive-header__description {
+    font-size: 1.1rem;
+    opacity: 0.95;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* フィルターセクション */
+.service-filter {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.service-filter__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.service-filter__field {
+    display: flex;
+    flex-direction: column;
+}
+
+.service-filter__label {
+    font-weight: 600;
+    color: #1e3a8a;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.service-filter__select {
+    padding: 12px 15px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: white;
+    transition: all 0.3s;
+}
+
+.service-filter__select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.service-filter__actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ボタンスタイル */
+.button {
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.button--primary {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: white;
+}
+
+.button--primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.button--secondary {
+    background: white;
+    color: #1e3a8a;
+    border: 2px solid #e5e7eb;
+}
+
+.button--secondary:hover {
+    background: #f8f9fa;
+    border-color: #1e3a8a;
+}
+
+/* 事務所カード */
+.service-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+}
+
+.service-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s;
+    border: 1px solid #e5e7eb;
+    position: relative;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-color: #3b82f6;
+}
+
+.service-card__link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.service-card__thumbnail {
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+}
+
+.service-card__thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.service-card__content {
+    padding: 20px;
+}
+
+.service-card__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.service-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #6b7280;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+}
+
+.service-card__meta-label {
+    font-size: 1.1rem;
+}
+
+.service-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.service-card__tag {
+    background: #eff6ff;
+    color: #1e3a8a;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.service-card__tag-more {
+    background: #f3f4f6;
+    color: #6b7280;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.service-card__footer {
+    padding-top: 12px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.service-card__link-text {
+    color: #3b82f6;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* 検索結果カウント */
+.service-archive__count {
+    margin-bottom: 25px;
+}
+
+.service-archive__count p {
+    font-size: 1.1rem;
+    color: #374151;
+}
+
+.service-archive__count strong {
+    color: #1e3a8a;
+    font-size: 1.3rem;
+}
+
+/* 検索結果なし */
+.service-archive__no-results {
+    text-align: center;
+    padding: 80px 20px;
+    background: white;
+    border-radius: 12px;
+}
+
+.no-results-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.no-results-title {
+    font-size: 1.5rem;
+    color: #1e3a8a;
+    margin-bottom: 15px;
+}
+
+.no-results-text {
+    color: #6b7280;
+    margin-bottom: 30px;
+}
+
+/* ページネーション */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+}
+
+.pagination a,
+.pagination .current {
+    padding: 10px 16px;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    color: #1e3a8a;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.pagination a:hover {
+    background: #eff6ff;
+    border-color: #3b82f6;
+}
+
+.pagination .current {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: white;
+    border-color: #3b82f6;
+}
+
+/* ========================================
+   税理士事務所詳細ページ
+   ======================================== */
+
+.tax-office-single {
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    margin: 30px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.tax-office-single__header {
+    border-bottom: 3px solid #3b82f6;
+    padding-bottom: 25px;
+    margin-bottom: 35px;
+}
+
+.tax-office-single__title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+
+.tax-office-single__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.tax-office-single__meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+}
+
+.tax-office-single__meta-label {
+    font-weight: 600;
+    color: #1e3a8a;
+}
+
+.tax-office-single__meta-item a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.tax-office-single__meta-item a:hover {
+    text-decoration: underline;
+}
+
+.tax-office-single__thumbnail {
+    margin-bottom: 35px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.tax-office-single__thumbnail img {
+    width: 100%;
+    height: auto;
+}
+
+.tax-office-single__content {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #374151;
+    margin-bottom: 40px;
+}
+
+.tax-office-single__section-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+/* 得意分野・得意業種セクション */
+.tax-office-single__services,
+.tax-office-single__industries {
+    margin-bottom: 40px;
+}
+
+.tax-office-single__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    list-style: none;
+}
+
+.tax-office-single__list-item {
+    display: flex;
+}
+
+.tax-office-single__tag {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    color: #1e3a8a;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: 1px solid #bfdbfe;
+    width: 100%;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.tax-office-single__tag:hover {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    transform: translateY(-2px);
+}
+
+/* 事務所情報テーブル */
+.tax-office-single__info {
+    margin-bottom: 40px;
+}
+
+.tax-office-single__info-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f8f9fa;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tax-office-single__info-table th,
+.tax-office-single__info-table td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.tax-office-single__info-table th {
+    background: #1e3a8a;
+    color: white;
+    font-weight: 600;
+    width: 180px;
+}
+
+.tax-office-single__info-table td {
+    color: #374151;
+}
+
+.tax-office-single__info-table a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.tax-office-single__info-table a:hover {
+    text-decoration: underline;
+}
+
+.tax-office-single__info-table tr:last-child th,
+.tax-office-single__info-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* お問い合わせセクション */
+.tax-office-single__contact {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    padding: 35px;
+    border-radius: 12px;
+    margin-top: 40px;
+}
+
+.tax-office-single__contact .tax-office-single__section-title {
+    border-bottom: none;
+    margin-bottom: 25px;
+}
+
+.tax-office-single__contact-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.tax-office-single__contact-button {
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s;
+    border: none;
+}
+
+.tax-office-single__contact-button--website {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: white;
+}
+
+.tax-office-single__contact-button--website:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.tax-office-single__contact-button--tel {
+    background: white;
+    color: #1e3a8a;
+    border: 2px solid #1e3a8a;
+}
+
+.tax-office-single__contact-button--tel:hover {
+    background: #1e3a8a;
+    color: white;
+}
+
+.tax-office-single__contact-button--email {
+    background: white;
+    color: #3b82f6;
+    border: 2px solid #3b82f6;
+}
+
+.tax-office-single__contact-button--email:hover {
+    background: #3b82f6;
+    color: white;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .tax-office-archive .archive-header__title {
+        font-size: 1.8rem;
+    }
+    
+    .tax-office-archive .archive-header__description {
+        font-size: 1rem;
+    }
+    
+    .service-filter {
+        padding: 20px;
+    }
+    
+    .service-filter__grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .service-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .tax-office-single {
+        padding: 25px;
+    }
+    
+    .tax-office-single__title {
+        font-size: 1.6rem;
+    }
+    
+    .tax-office-single__section-title {
+        font-size: 1.3rem;
+    }
+    
+    .tax-office-single__list {
+        grid-template-columns: 1fr;
+    }
+    
+    .tax-office-single__info-table th {
+        width: 120px;
+        font-size: 0.9rem;
+    }
+    
+    .tax-office-single__info-table td {
+        font-size: 0.9rem;
+    }
+    
+    .tax-office-single__contact-buttons {
+        flex-direction: column;
+    }
+    
+    .tax-office-single__contact-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
