@@ -101,12 +101,12 @@ get_header(); ?>
          SEO: カテゴリーリンク、キーワード配置
          ======================================== -->
     <?php
-    // 税理士事務所の得意業種を取得
-    $office_industries = get_all_office_industries();
+    // 税理士事務所の得意業種と件数を取得
+    $office_industries_with_count = get_office_industries_with_count();
     
-    if (!empty($office_industries)):
+    if (!empty($office_industries_with_count)):
         // 上位8件を取得
-        $top_industries = array_slice($office_industries, 0, 8);
+        $top_industries = array_slice($office_industries_with_count, 0, 8, true);
     ?>
     <section class="search-by-industry" itemscope itemtype="https://schema.org/ItemList">
         <div class="section-container">
@@ -118,21 +118,27 @@ get_header(); ?>
             </header>
             
             <nav class="industry-grid" aria-label="業種別ナビゲーション">
-                <?php foreach ($top_industries as $index => $industry): ?>
+                <?php 
+                $position = 1;
+                foreach ($top_industries as $industry => $count): 
+                ?>
                     <a href="<?php echo esc_url(add_query_arg('office_industry', urlencode($industry), get_services_archive_url())); ?>" 
                        class="industry-card" 
                        itemprop="itemListElement" 
                        itemscope 
                        itemtype="https://schema.org/ListItem">
-                        <meta itemprop="position" content="<?php echo esc_attr($index + 1); ?>">
+                        <meta itemprop="position" content="<?php echo esc_attr($position); ?>">
                         <h3 class="industry-card__title" itemprop="name">
                             <?php echo esc_html($industry); ?>
                         </h3>
                         <p class="industry-card__count">
-                            1件のサービス
+                            <?php echo esc_html($count); ?>件の税理士事務所
                         </p>
                     </a>
-                <?php endforeach; ?>
+                <?php 
+                $position++;
+                endforeach; 
+                ?>
             </nav>
             
             <div class="section-footer">

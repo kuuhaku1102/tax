@@ -345,3 +345,43 @@ function get_all_office_industries() {
     
     return $industries;
 }
+
+/**
+ * 各業種の税理士事務所件数を取得
+ * 
+ * @return array 業種名 => 件数の連想配列
+ */
+function get_office_industries_with_count() {
+    global $wpdb;
+    
+    // すべての税理士事務所の得意業種を取得
+    $results = $wpdb->get_results("
+        SELECT meta_value 
+        FROM {$wpdb->postmeta} 
+        WHERE meta_key = '_tax_office_industries'
+        AND post_id IN (
+            SELECT ID FROM {$wpdb->posts} 
+            WHERE post_type = 'tax_office' 
+            AND post_status = 'publish'
+        )
+    ");
+    
+    $industry_counts = array();
+    
+    foreach ($results as $result) {
+        $industries = json_decode($result->meta_value, true);
+        if (is_array($industries)) {
+            foreach ($industries as $industry) {
+                if (!isset($industry_counts[$industry])) {
+                    $industry_counts[$industry] = 0;
+                }
+                $industry_counts[$industry]++;
+            }
+        }
+    }
+    
+    // 件数の多い順にソート
+    arsort($industry_counts);
+    
+    return $industry_counts;
+}
