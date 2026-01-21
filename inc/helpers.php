@@ -385,3 +385,76 @@ function get_office_industries_with_count() {
     
     return $industry_counts;
 }
+
+/**
+ * 各得意分野の税理士事務所件数を取得
+ * 
+ * @return array 得意分野名 => 件数の連想配列
+ */
+function get_office_services_with_count() {
+    global $wpdb;
+    
+    // すべての税理士事務所の得意分野を取得
+    $results = $wpdb->get_results("
+        SELECT meta_value 
+        FROM {$wpdb->postmeta} 
+        WHERE meta_key = '_tax_office_services'
+        AND post_id IN (
+            SELECT ID FROM {$wpdb->posts} 
+            WHERE post_type = 'tax_office' 
+            AND post_status = 'publish'
+        )
+    ");
+    
+    $service_counts = array();
+    
+    foreach ($results as $result) {
+        $services = json_decode($result->meta_value, true);
+        if (is_array($services)) {
+            foreach ($services as $service) {
+                if (!isset($service_counts[$service])) {
+                    $service_counts[$service] = 0;
+                }
+                $service_counts[$service]++;
+            }
+        }
+    }
+    
+    // 件数の多い順にソート
+    arsort($service_counts);
+    
+    return $service_counts;
+}
+
+/**
+ * 各都道府県の税理士事務所件数を取得
+ * 
+ * @return array 都道府県名 => 件数の連想配列
+ */
+function get_office_prefectures_with_count() {
+    global $wpdb;
+    
+    // すべての税理士事務所の都道府県を取得
+    $results = $wpdb->get_results("
+        SELECT meta_value, COUNT(*) as count
+        FROM {$wpdb->postmeta} 
+        WHERE meta_key = '_tax_office_prefecture'
+        AND post_id IN (
+            SELECT ID FROM {$wpdb->posts} 
+            WHERE post_type = 'tax_office' 
+            AND post_status = 'publish'
+        )
+        GROUP BY meta_value
+        ORDER BY count DESC
+    ");
+    
+    $prefecture_counts = array();
+    
+    foreach ($results as $result) {
+        if (!empty($result->meta_value)) {
+            $prefecture_counts[$result->meta_value] = (int)$result->count;
+        }
+    }
+    
+    return $prefecture_counts;
+}

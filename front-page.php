@@ -151,6 +151,114 @@ get_header(); ?>
     <?php endif; ?>
     
     <!-- ========================================
+         得意分野から探す
+         SEO: カテゴリーリンク、キーワード配置
+         ======================================== -->
+    <?php
+    // 税理士事務所の得意分野と件数を取得
+    $office_services_with_count = get_office_services_with_count();
+    
+    if (!empty($office_services_with_count)):
+        // 上位8件を取得
+        $top_services = array_slice($office_services_with_count, 0, 8, true);
+    ?>
+    <section class="search-by-service" itemscope itemtype="https://schema.org/ItemList">
+        <div class="section-container">
+            <header class="section-header">
+                <h2 class="section-header__title" itemprop="name">得意分野から税理士を探す</h2>
+                <p class="section-header__description">
+                    あなたのニーズに合った専門性を持つ税理士サービスを見つけましょう
+                </p>
+            </header>
+            
+            <nav class="service-grid" aria-label="得意分野別ナビゲーション">
+                <?php 
+                $position = 1;
+                foreach ($top_services as $service => $count): 
+                ?>
+                    <a href="<?php echo esc_url(add_query_arg('office_service', urlencode($service), get_services_archive_url())); ?>" 
+                       class="service-card" 
+                       itemprop="itemListElement" 
+                       itemscope 
+                       itemtype="https://schema.org/ListItem">
+                        <meta itemprop="position" content="<?php echo esc_attr($position); ?>">
+                        <h3 class="service-card__title" itemprop="name">
+                            <?php echo esc_html($service); ?>
+                        </h3>
+                        <p class="service-card__count">
+                            <?php echo esc_html($count); ?>件の税理士事務所
+                        </p>
+                    </a>
+                <?php 
+                $position++;
+                endforeach; 
+                ?>
+            </nav>
+            
+            <div class="section-footer">
+                <a href="<?php echo esc_url(get_services_archive_url()); ?>" class="section-footer__link">
+                    すべての得意分野を見る →
+                </a>
+            </div>
+        </div>
+    </section>
+    <?php endif; ?>
+    
+    <!-- ========================================
+         都道府県から探す
+         SEO: 地域キーワード、ローカルSEO
+         ======================================== -->
+    <?php
+    // 税理士事務所の都道府県と件数を取得
+    $office_prefectures_with_count = get_office_prefectures_with_count();
+    
+    if (!empty($office_prefectures_with_count)):
+        // 上位8件を取得
+        $top_prefectures = array_slice($office_prefectures_with_count, 0, 8, true);
+    ?>
+    <section class="search-by-prefecture" itemscope itemtype="https://schema.org/ItemList">
+        <div class="section-container">
+            <header class="section-header">
+                <h2 class="section-header__title" itemprop="name">都道府県から税理士を探す</h2>
+                <p class="section-header__description">
+                    お近くの地域で活動する税理士サービスを見つけましょう
+                </p>
+            </header>
+            
+            <nav class="prefecture-grid" aria-label="都道府県別ナビゲーション">
+                <?php 
+                $position = 1;
+                foreach ($top_prefectures as $prefecture => $count): 
+                ?>
+                    <a href="<?php echo esc_url(add_query_arg('office_prefecture', urlencode($prefecture), get_services_archive_url())); ?>" 
+                       class="prefecture-card" 
+                       itemprop="itemListElement" 
+                       itemscope 
+                       itemtype="https://schema.org/ListItem">
+                        <meta itemprop="position" content="<?php echo esc_attr($position); ?>">
+                        <h3 class="prefecture-card__title" itemprop="name">
+                            <?php echo esc_html($prefecture); ?>
+                        </h3>
+                        <p class="prefecture-card__count">
+                            <?php echo esc_html($count); ?>件の税理士事務所
+                        </p>
+                    </a>
+                <?php 
+                $position++;
+                endforeach; 
+                ?>
+            </nav>
+            
+            <div class="section-footer">
+                <a href="<?php echo esc_url(get_services_archive_url()); ?>" class="section-footer__link">
+                    すべての都道府県を見る →
+                </a>
+            </div>
+        </div>
+    </section>
+    <?php endif; ?>
+    
+    <!-- ========================================
          課題から探す
          SEO: 問題解決キーワード、内部リンク
          ======================================== -->

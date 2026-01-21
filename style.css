@@ -3493,3 +3493,121 @@ body {
         font-size: 16px;
     }
 }
+
+/* ========================================
+   フロントページ - 得意分野・都道府県セクション
+   ======================================== */
+
+/* 得意分野グリッド */
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin: 32px 0;
+}
+
+.service-card {
+    display: block;
+    padding: 32px 24px;
+    background: #ffffff;
+    border: 2px dashed #10b981;
+    border-radius: 12px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.service-card:hover {
+    border-color: #059669;
+    border-style: solid;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(16, 185, 129, 0.15);
+}
+
+.service-card__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+}
+
+.service-card__count {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* 都道府県グリッド */
+.prefecture-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin: 32px 0;
+}
+
+.prefecture-card {
+    display: block;
+    padding: 32px 24px;
+    background: #ffffff;
+    border: 2px dashed #10b981;
+    border-radius: 12px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.prefecture-card:hover {
+    border-color: #059669;
+    border-style: solid;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(16, 185, 129, 0.15);
+}
+
+.prefecture-card__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+}
+
+.prefecture-card__count {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 1024px) {
+    .service-grid,
+    .prefecture-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .service-grid,
+    .prefecture-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+    
+    .service-card,
+    .prefecture-card {
+        padding: 24px 16px;
+    }
+    
+    .service-card__title,
+    .prefecture-card__title {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .service-grid,
+    .prefecture-grid {
+        grid-template-columns: 1fr;
+    }
+}
