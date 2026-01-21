@@ -87,10 +87,19 @@ body {
     background-color: #999;
 }
 
-.service-card__thumbnail img {
+.service-card__thumbnail {
     width: 100%;
     height: 200px;
+    overflow: hidden;
+    position: relative;
+    background-color: #f0f0f0;
+}
+
+.service-card__thumbnail img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    display: block;
 }
 
 .service-card__content {
