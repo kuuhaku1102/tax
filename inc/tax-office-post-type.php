@@ -132,6 +132,12 @@ function render_tax_office_info_meta_box($post) {
     $email = get_post_meta($post->ID, '_tax_office_email', true);
     $website = get_post_meta($post->ID, '_tax_office_website', true);
     $source_url = get_post_meta($post->ID, '_tax_office_source_url', true);
+    $services = get_post_meta($post->ID, '_tax_office_services', true);
+    $industries = get_post_meta($post->ID, '_tax_office_industries', true);
+    
+    // JSON配列をデコード
+    $services_array = !empty($services) ? json_decode($services, true) : array();
+    $industries_array = !empty($industries) ? json_decode($industries, true) : array();
     ?>
     <table class="form-table">
         <tr>
@@ -170,6 +176,30 @@ function render_tax_office_info_meta_box($post) {
                 <p class="description">スクレイピング元のURL（参照用）</p>
             </td>
         </tr>
+        <tr>
+            <th><label for="tax_office_services">得意分野</label></th>
+            <td>
+                <textarea id="tax_office_services" name="tax_office_services" 
+                          rows="5" class="large-text"><?php 
+                    if (!empty($services_array)) {
+                        echo esc_textarea(implode("\n", $services_array));
+                    }
+                ?></textarea>
+                <p class="description">1行に1つずつ入力してください</p>
+            </td>
+        </tr>
+        <tr>
+            <th><label for="tax_office_industries">得意業種</label></th>
+            <td>
+                <textarea id="tax_office_industries" name="tax_office_industries" 
+                          rows="5" class="large-text"><?php 
+                    if (!empty($industries_array)) {
+                        echo esc_textarea(implode("\n", $industries_array));
+                    }
+                ?></textarea>
+                <p class="description">1行に1つずつ入力してください</p>
+            </td>
+        </tr>
     </table>
     <?php
 }
@@ -200,6 +230,20 @@ function save_tax_office_meta_boxes($post_id) {
         if (isset($_POST[$key])) {
             update_post_meta($post_id, '_' . $key, sanitize_text_field($_POST[$key]));
         }
+    }
+    
+    // 得意分野の保存（JSON配列として）
+    if (isset($_POST['tax_office_services'])) {
+        $services_text = sanitize_textarea_field($_POST['tax_office_services']);
+        $services_array = array_filter(array_map('trim', explode("\n", $services_text)));
+        update_post_meta($post_id, '_tax_office_services', json_encode($services_array, JSON_UNESCAPED_UNICODE));
+    }
+    
+    // 得意業種の保存（JSON配列として）
+    if (isset($_POST['tax_office_industries'])) {
+        $industries_text = sanitize_textarea_field($_POST['tax_office_industries']);
+        $industries_array = array_filter(array_map('trim', explode("\n", $industries_text)));
+        update_post_meta($post_id, '_tax_office_industries', json_encode($industries_array, JSON_UNESCAPED_UNICODE));
     }
 }
 add_action('save_post_tax_office', 'save_tax_office_meta_boxes');
@@ -246,19 +290,17 @@ function display_tax_office_custom_columns($column, $post_id) {
             break;
             
         case 'custom_services':
-            $terms = get_the_terms($post_id, 'office_service');
-            if ($terms && !is_wp_error($terms)) {
-                $term_names = array();
-                $count = 0;
-                foreach ($terms as $term) {
-                    if ($count < 3) {
-                        $term_names[] = esc_html($term->name);
-                        $count++;
+            $services = get_post_meta($post_id, '_tax_office_services', true);
+            if (!empty($services)) {
+                $services_array = json_decode($services, true);
+                if (!empty($services_array)) {
+                    $display_items = array_slice($services_array, 0, 3);
+                    echo esc_html(implode(', ', $display_items));
+                    if (count($services_array) > 3) {
+                        echo ' <span style="color: #999;">他' . (count($services_array) - 3) . '件</span>';
                     }
-                }
-                echo implode(', ', $term_names);
-                if (count($terms) > 3) {
-                    echo ' <span style="color: #999;">他' . (count($terms) - 3) . '件</span>';
+                } else {
+                    echo '—';
                 }
             } else {
                 echo '—';
@@ -266,19 +308,17 @@ function display_tax_office_custom_columns($column, $post_id) {
             break;
             
         case 'custom_industries':
-            $terms = get_the_terms($post_id, 'office_industry');
-            if ($terms && !is_wp_error($terms)) {
-                $term_names = array();
-                $count = 0;
-                foreach ($terms as $term) {
-                    if ($count < 3) {
-                        $term_names[] = esc_html($term->name);
-                        $count++;
+            $industries = get_post_meta($post_id, '_tax_office_industries', true);
+            if (!empty($industries)) {
+                $industries_array = json_decode($industries, true);
+                if (!empty($industries_array)) {
+                    $display_items = array_slice($industries_array, 0, 3);
+                    echo esc_html(implode(', ', $display_items));
+                    if (count($industries_array) > 3) {
+                        echo ' <span style="color: #999;">他' . (count($industries_array) - 3) . '件</span>';
                     }
-                }
-                echo implode(', ', $term_names);
-                if (count($terms) > 3) {
-                    echo ' <span style="color: #999;">他' . (count($terms) - 3) . '件</span>';
+                } else {
+                    echo '—';
                 }
             } else {
                 echo '—';

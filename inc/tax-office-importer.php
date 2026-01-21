@@ -90,8 +90,8 @@ function render_tax_office_importer_page() {
             <ul>
                 <li>事務所名（投稿タイトル）</li>
                 <li>所在都道府県（タクソノミー）</li>
-                <li>対応可能サービス（タクソノミー）</li>
-                <li>対応業種（タクソノミー）</li>
+                <li>得意分野（カスタムフィールド・JSON配列）</li>
+                <li>得意業種（カスタムフィールド・JSON配列）</li>
                 <li>元データURL（カスタムフィールド）</li>
             </ul>
             <p><strong>注意:</strong> 弥生製品関連の情報は除外されます。</p>
@@ -201,42 +201,32 @@ function import_tax_offices_from_uploaded_files() {
                 wp_set_object_terms($post_id, $prefecture_term['term_id'], 'office_prefecture');
             }
             
-            // 対応可能サービスを設定
-            if (isset($office_data['details']['依頼内容']) && is_array($office_data['details']['依頼内容'])) {
-                $service_terms = array();
-                foreach ($office_data['details']['依頼内容'] as $service) {
+            // 得意分野を保存（JSON配列としてカスタムフィールドに）
+            if (isset($office_data['details']['得意分野']) && is_array($office_data['details']['得意分野'])) {
+                $services = array();
+                foreach ($office_data['details']['得意分野'] as $service) {
                     // 弥生製品関連は除外
                     if (strpos($service, '弥生') !== false) {
                         continue;
                     }
-                    $term = get_or_create_term($service, 'office_service');
-                    if ($term) {
-                        $service_terms[] = $term['term_id'];
-                    }
+                    $services[] = $service;
                 }
-                if (!empty($service_terms)) {
-                    wp_set_object_terms($post_id, $service_terms, 'office_service');
+                if (!empty($services)) {
+                    update_post_meta($post_id, '_tax_office_services', json_encode($services, JSON_UNESCAPED_UNICODE));
                 }
             }
             
-            // 対応業種を設定
-            if (isset($office_data['details']['業種']) && is_array($office_data['details']['業種'])) {
-                $industry_terms = array();
-                foreach ($office_data['details']['業種'] as $industry) {
-                    $term = get_or_create_term($industry, 'office_industry');
-                    if ($term) {
-                        $industry_terms[] = $term['term_id'];
-                    }
-                }
-                if (!empty($industry_terms)) {
-                    wp_set_object_terms($post_id, $industry_terms, 'office_industry');
+            // 得意業種を保存（JSON配列としてカスタムフィールドに）
+            if (isset($office_data['details']['得意業種']) && is_array($office_data['details']['得意業種'])) {
+                $industries = $office_data['details']['得意業種'];
+                if (!empty($industries)) {
+                    update_post_meta($post_id, '_tax_office_industries', json_encode($industries, JSON_UNESCAPED_UNICODE));
                 }
             }
             
             // 元データURLを保存
-            if (!empty($prefecture_code)) {
-                $source_url = 'https://zeirishi.yayoi-kk.co.jp/offices?prefecture_cd=' . $prefecture_code;
-                update_post_meta($post_id, '_tax_office_source_url', $source_url);
+            if (isset($office_data['source_url']) && !empty($office_data['source_url'])) {
+                update_post_meta($post_id, '_tax_office_source_url', $office_data['source_url']);
             }
             
             $imported++;
