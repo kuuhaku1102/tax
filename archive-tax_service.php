@@ -204,7 +204,8 @@ get_header(); ?>
                 
                 <?php
                 // 税理士事務所のクエリ
-                $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+                // アーカイブページではないため、$_GETからpagedを取得
+                $paged = isset($_GET['paged']) ? absint($_GET['paged']) : 1;
                 $office_query_args = array(
                     'post_type' => 'tax_office',
                     'posts_per_page' => 24,
@@ -330,6 +331,7 @@ get_header(); ?>
                             $pagination_args = array(
                                 'total' => $offices_query->max_num_pages,
                                 'current' => $paged,
+                                'format' => '?paged=%#%',
                                 'prev_text' => '« 前へ',
                                 'next_text' => '次へ »',
                                 'add_args' => array(),
