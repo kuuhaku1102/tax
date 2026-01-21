@@ -238,3 +238,31 @@ add_action('after_setup_theme', function () {
 });
 
 
+// ========================================
+// 固定ページのページネーション対応
+// ========================================
+
+/**
+ * 固定ページでpagedクエリパラメータを認識させる
+ * 
+ * 設計意図:
+ * - 固定ページでもページネーションが動作するようにする
+ * - ?paged=2 のようなクエリパラメータを処理
+ */
+add_action('init', function() {
+    global $wp;
+    $wp->add_query_var('paged');
+});
+
+/**
+ * 固定ページのクエリを調整
+ * 
+ * 設計意図:
+ * - 404エラーを防ぐ
+ * - ページネーションのクエリパラメータを正しく処理
+ */
+add_action('parse_request', function($wp) {
+    if (isset($_GET['paged']) && !empty($_GET['paged'])) {
+        $wp->query_vars['paged'] = intval($_GET['paged']);
+    }
+});
