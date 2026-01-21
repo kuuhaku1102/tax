@@ -327,30 +327,47 @@ get_header(); ?>
                     <?php if ($offices_query->max_num_pages > 1): ?>
                         <div class="pagination">
                             <?php
-                            $pagination_args = array(
-                                'total' => $offices_query->max_num_pages,
-                                'current' => $paged,
-                                'format' => '?paged=%#%',
-                                'prev_text' => '« 前へ',
-                                'next_text' => '次へ »',
-                                'add_args' => array(),
-                            );
-                            
-                            // 検索パラメータを保持
+                            // 現在のURLパラメータを取得
+                            $query_params = array();
                             if (isset($_GET['office_industry'])) {
-                                $pagination_args['add_args']['office_industry'] = $_GET['office_industry'];
+                                $query_params['office_industry'] = $_GET['office_industry'];
                             }
                             if (isset($_GET['office_service'])) {
-                                $pagination_args['add_args']['office_service'] = $_GET['office_service'];
+                                $query_params['office_service'] = $_GET['office_service'];
                             }
                             if (isset($_GET['office_prefecture'])) {
-                                $pagination_args['add_args']['office_prefecture'] = $_GET['office_prefecture'];
+                                $query_params['office_prefecture'] = $_GET['office_prefecture'];
                             }
                             if (isset($_GET['orderby'])) {
-                                $pagination_args['add_args']['orderby'] = $_GET['orderby'];
+                                $query_params['orderby'] = $_GET['orderby'];
                             }
                             
-                            echo paginate_links($pagination_args);
+                            $base_url = get_permalink();
+                            $total_pages = $offices_query->max_num_pages;
+                            
+                            // 前へリンク
+                            if ($paged > 1) {
+                                $prev_params = array_merge($query_params, array('paged' => $paged - 1));
+                                echo '<a href="' . esc_url(add_query_arg($prev_params, $base_url)) . '" class="pagination__link pagination__prev">« 前へ</a>';
+                            }
+                            
+                            // ページ番号リンク
+                            for ($i = 1; $i <= $total_pages; $i++) {
+                                if ($i == $paged) {
+                                    echo '<span class="pagination__link pagination__current">' . $i . '</span>';
+                                } elseif ($i == 1 || $i == $total_pages || abs($i - $paged) <= 2) {
+                                    $page_params = array_merge($query_params, array('paged' => $i));
+                                    echo '<a href="' . esc_url(add_query_arg($page_params, $base_url)) . '" class="pagination__link">' . $i . '</a>';
+                                } elseif (abs($i - $paged) == 3) {
+                                    echo '<span class="pagination__dots">…</span>';
+                                }
+                            }
+                            
+                            // 次へリンク
+                            if ($paged < $total_pages) {
+                                $next_params = array_merge($query_params, array('paged' => $paged + 1));
+                                echo '<a href="' . esc_url(add_query_arg($next_params, $base_url)) . '" class="pagination__link pagination__next">次へ »</a>';
+                            }
                             ?>
                         </div>
                     <?php endif; ?>
