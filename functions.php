@@ -312,3 +312,20 @@ add_filter('template_include', function($template) {
     }
     return $template;
 }, 99);
+
+/**
+ * リライトルールを自動的にフラッシュ
+ * 
+ * 設計意図:
+ * - カスタム投稿タイプやタクソノミーの変更後に自動的にリライトルールを更新
+ * - 一度だけ実行してオプションを保存
+ */
+add_action('init', function() {
+    $version = '1.0.1'; // バージョンを変更するとリフラッシュが実行される
+    $current_version = get_option('tax_rewrite_version', '0');
+    
+    if ($current_version !== $version) {
+        flush_rewrite_rules();
+        update_option('tax_rewrite_version', $version);
+    }
+}, 999); // 優先度を高くして、カスタム投稿タイプ登録後に実行
