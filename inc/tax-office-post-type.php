@@ -29,7 +29,7 @@ function register_tax_office_post_type() {
         'show_ui'               => true,
         'show_in_menu'          => true,
         'query_var'             => true,
-        'rewrite'               => array('slug' => 'tax-office'),
+        'rewrite'               => array('slug' => 'services'),
         'capability_type'       => 'post',
         'has_archive'           => true,
         'hierarchical'          => false,
