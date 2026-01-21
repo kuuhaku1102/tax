@@ -97,19 +97,16 @@ get_header(); ?>
     <?php endif; ?>
     
     <!-- ========================================
-         業種から探す
+         業種から探す（得意業種を表示）
          SEO: カテゴリーリンク、キーワード配置
          ======================================== -->
     <?php
-    $industries = get_terms([
-        'taxonomy' => 'service_industry',
-        'hide_empty' => true,
-        'number' => 8,
-        'orderby' => 'count',
-        'order' => 'DESC',
-    ]);
+    // 税理士事務所の得意業種を取得
+    $office_industries = get_all_office_industries();
     
-    if (!empty($industries) && !is_wp_error($industries)):
+    if (!empty($office_industries)):
+        // 上位8件を取得
+        $top_industries = array_slice($office_industries, 0, 8);
     ?>
     <section class="search-by-industry" itemscope itemtype="https://schema.org/ItemList">
         <div class="section-container">
@@ -121,18 +118,18 @@ get_header(); ?>
             </header>
             
             <nav class="industry-grid" aria-label="業種別ナビゲーション">
-                <?php foreach ($industries as $index => $industry): ?>
-                    <a href="<?php echo esc_url(get_term_link($industry)); ?>" 
+                <?php foreach ($top_industries as $index => $industry): ?>
+                    <a href="<?php echo esc_url(add_query_arg('office_industry', urlencode($industry), get_services_archive_url())); ?>" 
                        class="industry-card" 
                        itemprop="itemListElement" 
                        itemscope 
                        itemtype="https://schema.org/ListItem">
                         <meta itemprop="position" content="<?php echo esc_attr($index + 1); ?>">
                         <h3 class="industry-card__title" itemprop="name">
-                            <?php echo esc_html($industry->name); ?>
+                            <?php echo esc_html($industry); ?>
                         </h3>
                         <p class="industry-card__count">
-                            <?php echo esc_html($industry->count); ?>件のサービス
+                            1件のサービス
                         </p>
                     </a>
                 <?php endforeach; ?>
