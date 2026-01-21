@@ -314,6 +314,40 @@ add_filter('template_include', function($template) {
 }, 99);
 
 /**
+ * /services/ でクエリパラメータがある場合に404を防ぐ
+ * 
+ * 設計意図:
+ * - template_redirectフックで404を直接処理
+ * - クエリパラメータ付きURLでもアーカイブページを表示
+ */
+add_action('template_redirect', function() {
+    global $wp_query;
+    
+    // /services/ へのアクセスでクエリパラメータがある場合
+    if (is_404() && isset($_SERVER['REQUEST_URI'])) {
+        $request_uri = $_SERVER['REQUEST_URI'];
+        
+        // /services/ へのアクセスでクエリパラメータがあるか確認
+        if (strpos($request_uri, '/services/') !== false && 
+            (isset($_GET['office_industry']) || isset($_GET['office_service']) || isset($_GET['office_prefecture']))) {
+            
+            // 404を解除
+            status_header(200);
+            $wp_query->is_404 = false;
+            $wp_query->is_archive = true;
+            $wp_query->is_post_type_archive = true;
+            
+            // archive-tax_office.phpを読み込む
+            $template = locate_template('archive-tax_office.php');
+            if ($template) {
+                include($template);
+                exit;
+            }
+        }
+    }
+}, 1);
+
+/**
  * リライトルールを自動的にフラッシュ
  * 
  * 設計意図:
@@ -321,7 +355,7 @@ add_filter('template_include', function($template) {
  * - 一度だけ実行してオプションを保存
  */
 add_action('init', function() {
-    $version = '1.0.2'; // バージョンを変更するとリフラッシュが実行される
+    $version = '1.0.3'; // バージョンを変更するとリフラッシュが実行される
     $current_version = get_option('tax_rewrite_version', '0');
     
     if ($current_version !== $version) {
