@@ -23,9 +23,9 @@ get_header(); ?>
     <!-- ページヘッダー -->
     <header class="archive-header">
         <div class="container">
-            <h1 class="archive-header__title">税理士を探す</h1>
+            <h1 class="archive-header__title">税理士・会計事務所を探す</h1>
             <p class="archive-header__description">
-                業種・課題・エリアから、あなたに最適な税理士サービス・事務所を見つけましょう
+                得意業種・得意分野・都道府県から、あなたに最適な税理士事務所を見つけましょう
             </p>
         </div>
     </header>
@@ -37,10 +37,6 @@ get_header(); ?>
             <form method="get" action="<?php echo esc_url(get_post_type_archive_link('tax_service')); ?>" class="service-filter__form">
                 
                 <div class="service-filter__grid">
-                    <?php if (function_exists('display_taxonomy_filter')): ?>
-                        <?php display_taxonomy_filter('service_industry', '業種'); ?>
-                        <?php display_taxonomy_filter('service_issue', '課題・目的'); ?>
-                    <?php endif; ?>
                     
                     <!-- 得意業種フィルター -->
                     <div class="service-filter__field">
@@ -132,116 +128,17 @@ get_header(); ?>
             </form>
         </div>
         
-        <!-- 税理士サービスセクション -->
-        <section class="service-section">
-            <h2 class="section-title">
-                <span class="section-title__icon">💼</span>
-                税理士サービス
-            </h2>
-            
-            <div class="service-archive">
-                
-                <?php
-                // 検索クエリの構築
-                $query_args = array(
-                    'post_type' => 'tax_service',
-                    'posts_per_page' => 6,
-                    'orderby' => isset($_GET['orderby']) ? $_GET['orderby'] : 'date',
-                    'order' => 'DESC',
-                );
-                
-                // タクソノミーフィルター
-                $tax_query = array('relation' => 'AND');
-                
-                if (isset($_GET['service_industry']) && !empty($_GET['service_industry'])) {
-                    $tax_query[] = array(
-                        'taxonomy' => 'service_industry',
-                        'field' => 'slug',
-                        'terms' => $_GET['service_industry'],
-                    );
-                }
-                
-                if (isset($_GET['service_issue']) && !empty($_GET['service_issue'])) {
-                    $tax_query[] = array(
-                        'taxonomy' => 'service_issue',
-                        'field' => 'slug',
-                        'terms' => $_GET['service_issue'],
-                    );
-                }
-                
-                if (isset($_GET['service_area']) && !empty($_GET['service_area'])) {
-                    $tax_query[] = array(
-                        'taxonomy' => 'service_area',
-                        'field' => 'slug',
-                        'terms' => $_GET['service_area'],
-                    );
-                }
-                
-                if (count($tax_query) > 1) {
-                    $query_args['tax_query'] = $tax_query;
-                }
-                
-                $services_query = new WP_Query($query_args);
-                
-                if ($services_query->have_posts()):
-                ?>
-                    
-                    <!-- 検索結果の件数表示 -->
-                    <div class="service-archive__count">
-                        <p><strong><?php echo esc_html($services_query->found_posts); ?>件</strong>のサービスが見つかりました</p>
-                    </div>
-                    
-                    <!-- サービスカード一覧 -->
-                    <div class="service-cards">
-                        <?php while ($services_query->have_posts()): $services_query->the_post(); ?>
-                            <?php if (function_exists('display_service_card')): ?>
-                                <?php display_service_card(get_the_ID()); ?>
-                            <?php else: ?>
-                                <article class="service-card">
-                                    <a href="<?php the_permalink(); ?>">
-                                        <h3><?php the_title(); ?></h3>
-                                    </a>
-                                </article>
-                            <?php endif; ?>
-                        <?php endwhile; ?>
-                    </div>
-                    
-                    <?php if ($services_query->found_posts > 6): ?>
-                        <div class="section-footer">
-                            <a href="<?php echo esc_url(get_post_type_archive_link('tax_service')); ?>" class="button button--secondary">
-                                すべての税理士サービスを見る →
-                            </a>
-                        </div>
-                    <?php endif; ?>
-                    
-                <?php else: ?>
-                    
-                    <!-- 検索結果なし -->
-                    <div class="service-archive__no-results">
-                        <p class="no-results-text">条件に一致するサービスが見つかりませんでした</p>
-                    </div>
-                    
-                <?php endif; ?>
-                
-                <?php wp_reset_postdata(); ?>
-                
-            </div>
-        </section>
         
-        <!-- 税理士事務所セクション -->
-        <section class="service-section tax-office-section">
-            <h2 class="section-title">
-                <span class="section-title__icon">🏛️</span>
-                税理士・会計事務所
-            </h2>
-            
-            <div class="service-archive">
+        <!-- 税理士事務所一覧 -->
+        <div class="service-archive">
                 
                 <?php
                 // 税理士事務所のクエリ
+                $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
                 $office_query_args = array(
                     'post_type' => 'tax_office',
-                    'posts_per_page' => 12,
+                    'posts_per_page' => 24,
+                    'paged' => $paged,
                     'orderby' => isset($_GET['orderby']) ? $_GET['orderby'] : 'title',
                     'order' => 'ASC',
                 );
@@ -264,7 +161,7 @@ get_header(); ?>
                 if (isset($_GET['office_industry']) && !empty($_GET['office_industry'])) {
                     $meta_query[] = array(
                         'key' => '_tax_office_industries',
-                        'value' => $_GET['office_industry'],
+                        'value' => '"' . $_GET['office_industry'] . '"',
                         'compare' => 'LIKE',
                     );
                 }
@@ -273,29 +170,9 @@ get_header(); ?>
                 if (isset($_GET['office_service']) && !empty($_GET['office_service'])) {
                     $meta_query[] = array(
                         'key' => '_tax_office_services',
-                        'value' => $_GET['office_service'],
+                        'value' => '"' . $_GET['office_service'] . '"',
                         'compare' => 'LIKE',
                     );
-                }
-                
-                // 業種フィルター（税理士サービス用）でも検索
-                if (isset($_GET['service_industry']) && !empty($_GET['service_industry'])) {
-                    $search_term = get_term_by('slug', $_GET['service_industry'], 'service_industry');
-                    if ($search_term) {
-                        $meta_query[] = array(
-                            'relation' => 'OR',
-                            array(
-                                'key' => '_tax_office_services',
-                                'value' => $search_term->name,
-                                'compare' => 'LIKE',
-                            ),
-                            array(
-                                'key' => '_tax_office_industries',
-                                'value' => $search_term->name,
-                                'compare' => 'LIKE',
-                            ),
-                        );
-                    }
                 }
                 
                 if (count($meta_query) > 1) {
@@ -376,11 +253,18 @@ get_header(); ?>
                         <?php endwhile; ?>
                     </div>
                     
-                    <?php if ($offices_query->found_posts > 12): ?>
-                        <div class="section-footer">
-                            <a href="<?php echo esc_url(get_post_type_archive_link('tax_office')); ?>" class="button button--secondary">
-                                すべての税理士事務所を見る →
-                            </a>
+                    <!-- ページネーション -->
+                    <?php if ($offices_query->max_num_pages > 1): ?>
+                        <div class="pagination">
+                            <?php
+                            echo paginate_links(array(
+                                'total' => $offices_query->max_num_pages,
+                                'current' => $paged,
+                                'format' => '?paged=%#%',
+                                'prev_text' => '« 前へ',
+                                'next_text' => '次へ »',
+                            ));
+                            ?>
                         </div>
                     <?php endif; ?>
                     
@@ -395,8 +279,7 @@ get_header(); ?>
                 
                 <?php wp_reset_postdata(); ?>
                 
-            </div>
-        </section>
+        </div>
         
     </div>
     
