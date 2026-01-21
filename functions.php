@@ -321,7 +321,7 @@ add_filter('template_include', function($template) {
  * - 一度だけ実行してオプションを保存
  */
 add_action('init', function() {
-    $version = '1.0.1'; // バージョンを変更するとリフラッシュが実行される
+    $version = '1.0.2'; // バージョンを変更するとリフラッシュが実行される
     $current_version = get_option('tax_rewrite_version', '0');
     
     if ($current_version !== $version) {
