@@ -43,6 +43,12 @@ function display_service_card($post_id = null, $size = 'service-card') {
     $catchcopy = get_field_safe('catchcopy', $post_id);
     $listing_plan = get_field_safe('listing_plan', $post_id);
     $office_name = get_field_safe('office_name', $post_id);
+    $office_url = get_field_safe('office_url', $post_id);
+    
+    // リンク先を決定（外部URLがあればそれを使用、なければ内部詳細ページ）
+    $link_url = !empty($office_url) ? $office_url : $permalink;
+    $link_target = !empty($office_url) ? '_blank' : '_self';
+    $link_rel = !empty($office_url) ? 'noopener noreferrer nofollow' : '';
     
     // タクソノミー情報
     $industries = get_taxonomy_terms_list('service_industry', $post_id);
@@ -58,7 +64,7 @@ function display_service_card($post_id = null, $size = 'service-card') {
         
         <?php if ($thumbnail): ?>
             <div class="service-card__thumbnail">
-                <a href="<?php echo esc_url($permalink); ?>">
+                <a href="<?php echo esc_url($link_url); ?>" target="<?php echo esc_attr($link_target); ?>" <?php if ($link_rel): ?>rel="<?php echo esc_attr($link_rel); ?>"<?php endif; ?>>
                     <?php echo $thumbnail; ?>
                 </a>
             </div>
@@ -66,7 +72,7 @@ function display_service_card($post_id = null, $size = 'service-card') {
         
         <div class="service-card__content">
             <h3 class="service-card__title">
-                <a href="<?php echo esc_url($permalink); ?>">
+                <a href="<?php echo esc_url($link_url); ?>" target="<?php echo esc_attr($link_target); ?>" <?php if ($link_rel): ?>rel="<?php echo esc_attr($link_rel); ?>"<?php endif; ?>>
                     <?php echo esc_html($title); ?>
                 </a>
             </h3>
@@ -100,7 +106,7 @@ function display_service_card($post_id = null, $size = 'service-card') {
             </div>
             
             <div class="service-card__action">
-                <a href="<?php echo esc_url($permalink); ?>" class="service-card__button">
+                <a href="<?php echo esc_url($link_url); ?>" class="service-card__button" target="<?php echo esc_attr($link_target); ?>" <?php if ($link_rel): ?>rel="<?php echo esc_attr($link_rel); ?>"<?php endif; ?>>
                     詳細を見る
                 </a>
             </div>
